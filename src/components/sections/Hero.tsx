@@ -1,9 +1,18 @@
+"use client";
+
 import { DownloadButton } from "@/components/ui/DownloadButton";
 import { BrewInstall } from "@/components/ui/BrewInstall";
 import { AppScreenshot } from "./AppScreenshot";
 import { GITHUB_URL } from "@/lib/constants";
+import posthog from "posthog-js";
 
 export function Hero() {
+  const handleGitHubHeroClick = () => {
+    posthog.capture("github_hero_clicked", {
+      location: "hero_section",
+    });
+  };
+
   return (
     <section className="relative z-10 mx-auto max-w-7xl px-8 pt-20 pb-8">
       <div className="mx-auto max-w-3xl text-center">
@@ -32,6 +41,7 @@ export function Hero() {
             <DownloadButton />
             <a
               href={GITHUB_URL}
+              onClick={handleGitHubHeroClick}
               className="animate-fade-in-up text-sm text-[#6b6b6b] transition-colors delay-600 hover:text-[#e8e8e8]"
               style={{ fontFamily: "var(--font-mono)" }}
             >

@@ -1,12 +1,25 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { DownloadButton } from "@/components/ui/DownloadButton";
 import { GitHubStars } from "@/components/ui/GitHubStars";
+import posthog from "posthog-js";
 
 export function Header() {
+  const handleLogoClick = () => {
+    posthog.capture("logo_clicked", {
+      location: "header",
+    });
+  };
+
   return (
     <header className="relative z-10 mx-auto flex max-w-7xl items-center justify-between px-8 py-6">
-      <Link href="/" className="flex items-center justify-center gap-2">
+      <Link
+        href="/"
+        onClick={handleLogoClick}
+        className="flex items-center justify-center gap-2"
+      >
         <Image
           src="/logo.svg"
           alt="Zoyla"

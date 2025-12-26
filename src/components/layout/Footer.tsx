@@ -1,6 +1,16 @@
+"use client";
+
 import { TWITTER_URL, TWITTER_HANDLE } from "@/lib/constants";
+import posthog from "posthog-js";
 
 export function Footer() {
+  const handleTwitterClick = () => {
+    posthog.capture("twitter_link_clicked", {
+      location: "footer",
+      twitter_handle: TWITTER_HANDLE,
+    });
+  };
+
   return (
     <footer className="relative z-10 mx-auto max-w-7xl border-t border-[#1a1a1a] px-8 py-10">
       <div
@@ -13,6 +23,7 @@ export function Footer() {
         <span className="text-[#252525]">·</span>
         <a
           href={TWITTER_URL}
+          onClick={handleTwitterClick}
           className="transition-colors hover:text-[#e8e8e8]"
           target="_blank"
           rel="noopener noreferrer"

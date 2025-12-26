@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Check, Copy } from "lucide-react";
+import posthog from "posthog-js";
 
 interface CopyButtonProps {
   text: string;
@@ -16,6 +17,11 @@ export function CopyButton({ text, className = "" }: CopyButtonProps) {
       await navigator.clipboard.writeText(text);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+
+      // Track copy event
+      posthog.capture("brew_command_copied", {
+        copied_text: text,
+      });
     } catch {
       // Fallback for older browsers
       const textArea = document.createElement("textarea");
@@ -26,6 +32,11 @@ export function CopyButton({ text, className = "" }: CopyButtonProps) {
       document.body.removeChild(textArea);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+
+      // Track copy event (fallback)
+      posthog.capture("brew_command_copied", {
+        copied_text: text,
+      });
     }
   };
 

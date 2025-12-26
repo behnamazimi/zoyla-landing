@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Github, Star } from "lucide-react";
 import { GITHUB_REPO, GITHUB_URL } from "@/lib/constants";
+import posthog from "posthog-js";
 
 export function GitHubStars() {
   const [stars, setStars] = useState<number | null>(null);
@@ -30,9 +31,17 @@ export function GitHubStars() {
     fetchStars();
   }, []);
 
+  const handleGitHubClick = () => {
+    posthog.capture("github_link_clicked", {
+      location: "header",
+      stars_count: stars,
+    });
+  };
+
   return (
     <a
       href={GITHUB_URL}
+      onClick={handleGitHubClick}
       className="flex items-center gap-1.5 text-sm text-[#a0a0a0] transition-colors hover:text-[#e8e8e8]"
       style={{ fontFamily: "var(--font-mono)" }}
       target="_blank"
