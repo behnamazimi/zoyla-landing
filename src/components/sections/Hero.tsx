@@ -17,7 +17,7 @@ export function Hero() {
     <section className="relative z-10 mx-auto max-w-7xl px-8 pt-20 pb-8">
       <div className="mx-auto max-w-3xl text-center">
         <h1
-          className="text-5xl leading-[1.1] font-semibold tracking-tight text-[#e8e8e8] lg:text-7xl"
+          className="text-4xl leading-[1.1] font-semibold tracking-tight text-[#e8e8e8] sm:text-5xl lg:text-7xl"
           style={{ fontFamily: "var(--font-display)" }}
         >
           <span className="animate-fade-in-up block delay-100">

@@ -1,12 +1,35 @@
 import type { PlatformInfo } from "@/types";
 
+export function isMobileDevice(): boolean {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  const userAgent = navigator.userAgent.toLowerCase();
+
+  return (
+    /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(
+      userAgent
+    ) ||
+    ("ontouchstart" in window &&
+      navigator.maxTouchPoints > 0 &&
+      window.innerWidth < 768)
+  );
+}
+
 export function detectPlatform(): PlatformInfo {
   if (typeof window === "undefined") {
-    return { platform: "darwin", arch: "arm64", label: "macOS" };
+    return {
+      platform: "darwin",
+      arch: "arm64",
+      label: "macOS",
+      isMobile: false,
+    };
   }
 
   const userAgent = navigator.userAgent.toLowerCase();
   const platform = navigator.platform?.toLowerCase() || "";
+  const isMobile = isMobileDevice();
 
   // Detect OS
   let os = "darwin";
@@ -80,5 +103,5 @@ export function detectPlatform(): PlatformInfo {
     }
   }
 
-  return { platform: os, arch, label };
+  return { platform: os, arch, label, isMobile };
 }

@@ -38,7 +38,7 @@ export function AppScreenshot() {
   }, []);
 
   return (
-    <div ref={ref} className="relative mt-16 px-4">
+    <div ref={ref} className="relative mt-16 px-0 sm:px-4">
       <div
         className="relative mx-auto max-w-5xl transition-all duration-700 ease-out"
         style={{
@@ -59,15 +59,9 @@ export function AppScreenshot() {
         />
 
         {/* Screenshot container */}
-        <div
-          className="relative overflow-hidden rounded-xl border border-[#252525]"
-          style={{
-            boxShadow:
-              "0 25px 80px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05)",
-          }}
-        >
+        <div className="relative overflow-hidden rounded-none sm:rounded-xl">
           <Image
-            src="/ss.png"
+            src="/screenshot.png"
             alt="Zoyla app interface showing load test results"
             width={1280}
             height={800}
