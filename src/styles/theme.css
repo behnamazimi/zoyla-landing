@@ -1,0 +1,75 @@
+/* Theme Design Tokens */
+/* Using HSL for easy theme switching */
+
+:root {
+  /* Base color tokens - Acid Green theme (default) */
+  --color-accent-h: 82;
+  --color-accent-s: 100%;
+  --color-accent-l: 67%;
+
+  /* Semantic color tokens */
+  --accent: hsl(
+    var(--color-accent-h),
+    var(--color-accent-s),
+    var(--color-accent-l)
+  );
+  --accent-hover: hsl(var(--color-accent-h), var(--color-accent-s), 73%);
+  --accent-dim: hsl(var(--color-accent-h), 50%, 53%);
+  --accent-glow: hsla(
+    var(--color-accent-h),
+    var(--color-accent-s),
+    var(--color-accent-l),
+    0.4
+  );
+  --accent-subtle: hsla(
+    var(--color-accent-h),
+    var(--color-accent-s),
+    var(--color-accent-l),
+    0.08
+  );
+
+  /* Neutral tokens */
+  --foreground: #e8e8e8;
+  --foreground-muted: #a0a0a0;
+  --muted: #6b6b6b;
+  --background: #0a0a0a;
+  --surface: #141414;
+  --surface-hover: #1a1a1a;
+  --border: #252525;
+  --border-hover: #353535;
+
+  /* Font families */
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  --font-display: var(--font-dm-sans), system-ui, sans-serif;
+  --font-body: var(--font-source-serif), Georgia, serif;
+
+  color-scheme: dark;
+}
+
+/* Amber Theme */
+[data-theme="amber"] {
+  --color-accent-h: 45;
+  --color-accent-s: 100%;
+  --color-accent-l: 50%;
+}
+
+/* Cyan Theme */
+[data-theme="cyan"] {
+  --color-accent-h: 180;
+  --color-accent-s: 70%;
+  --color-accent-l: 50%;
+}
+
+/* Purple Theme */
+[data-theme="purple"] {
+  --color-accent-h: 270;
+  --color-accent-s: 70%;
+  --color-accent-l: 60%;
+}
+
+/* Rose Theme */
+[data-theme="rose"] {
+  --color-accent-h: 350;
+  --color-accent-s: 80%;
+  --color-accent-l: 60%;
+}

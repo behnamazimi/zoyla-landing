@@ -1,26 +1,325 @@
 @import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import "../src/styles/theme.css";
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+  background: var(--background);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Diagonal grid background */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(
+      45deg,
+      transparent 48%,
+      rgba(255, 255, 255, 0.015) 49%,
+      rgba(255, 255, 255, 0.015) 51%,
+      transparent 52%
+    ),
+    linear-gradient(
+      -45deg,
+      transparent 48%,
+      rgba(255, 255, 255, 0.015) 49%,
+      rgba(255, 255, 255, 0.015) 51%,
+      transparent 52%
+    );
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Radial glow behind hero */
+.hero-glow {
+  position: absolute;
+  top: 10%;
+  left: 30%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(
+    ellipse at center,
+    var(--accent-subtle) 0%,
+    hsla(
+        var(--color-accent-h),
+        var(--color-accent-s),
+        var(--color-accent-l),
+        0.03
+      )
+      30%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Keyframe Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 0 0 var(--accent-glow);
+  }
+  50% {
+    box-shadow: 0 0 20px 4px
+      hsla(
+        var(--color-accent-h),
+        var(--color-accent-s),
+        var(--color-accent-l),
+        0.3
+      );
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+@keyframes starPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes terminalFadeIn {
+  from {
+    opacity: 0;
+    transform: perspective(1000px) rotateY(-5deg) translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(1000px) rotateY(-2deg) translateX(0);
+  }
+}
+
+/* Animation utility classes */
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out both;
+}
+
+.animate-glow-pulse {
+  animation: glowPulse 0.6s ease-out;
+}
+
+.animate-star-pulse {
+  animation: starPulse 2s ease-in-out infinite;
+}
+
+.animate-terminal {
+  animation: terminalFadeIn 0.8s ease-out both;
+}
+
+/* Staggered delays */
+.delay-100 {
+  animation-delay: 0.1s;
+}
+.delay-200 {
+  animation-delay: 0.2s;
+}
+.delay-300 {
+  animation-delay: 0.3s;
+}
+.delay-400 {
+  animation-delay: 0.4s;
+}
+.delay-500 {
+  animation-delay: 0.5s;
+}
+.delay-600 {
+  animation-delay: 0.6s;
+}
+.delay-700 {
+  animation-delay: 0.7s;
+}
+.delay-800 {
+  animation-delay: 0.8s;
+}
+
+/* Terminal mock styles */
+.terminal-frame {
+  background: linear-gradient(
+    180deg,
+    var(--surface-hover) 0%,
+    var(--surface) 100%
+  );
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+  transform: perspective(1000px) rotateY(-2deg);
+  transition: transform 0.3s ease;
+}
+
+.terminal-frame:hover {
+  transform: perspective(1000px) rotateY(0deg);
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.terminal-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.terminal-dot.red {
+  background: #ff5f57;
+}
+.terminal-dot.yellow {
+  background: #febc2e;
+}
+.terminal-dot.green {
+  background: #28c840;
+}
+
+.terminal-title {
+  flex: 1;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.terminal-body {
+  padding: 20px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* Feature row styles */
+.feature-row {
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.feature-row.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Button styles */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: var(--accent);
+  color: var(--background);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.btn-primary.animate-glow {
+  animation:
+    fadeInUp 0.6s ease-out 0.5s both,
+    glowPulse 0.6s ease-out 1s;
+}
+
+/* Link styles */
+.link-muted {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.link-muted:hover {
+  color: var(--foreground);
+}
+
+/* Typography */
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+/* Metric value animation */
+.metric-value {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Selection color */
+::selection {
+  background: hsla(
+    var(--color-accent-h),
+    var(--color-accent-s),
+    var(--color-accent-l),
+    0.3
+  );
+  color: var(--foreground);
 }

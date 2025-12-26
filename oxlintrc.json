@@ -1,0 +1,25 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "typescript", "import"],
+  "rules": {
+    "no-unused-vars": "warn",
+    "no-console": "warn",
+    "eqeqeq": "error",
+    "no-var": "error",
+    "prefer-const": "warn",
+    "react/jsx-key": "error",
+    "react/no-array-index-key": "warn",
+    "react/self-closing-comp": "warn",
+    "typescript/no-explicit-any": "warn",
+    "import/no-duplicates": "error"
+  },
+  "ignorePatterns": [
+    "node_modules",
+    ".next",
+    "out",
+    "dist",
+    "*.config.js",
+    "*.config.mjs",
+    "*.config.ts"
+  ]
+}
