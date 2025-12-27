@@ -1,0 +1,65 @@
+---
+title: "Free Load Testing Tools Worth Using"
+description: "A practical look at free load testing tools, what they're good at, and how to choose between them."
+date: "2025-12-22"
+author: "Behnam Azimi"
+tags: ["tools", "free", "comparison"]
+---
+
+You don't need to pay thousands for enterprise load testing software. There are solid free options that handle most use cases perfectly well. The trick is knowing which one fits your situation.
+
+## The CLI classics
+
+**wrk** and **hey** are the minimalist options. Tiny, fast, no dependencies. You run them from the terminal, they hammer your endpoint, you get results. Perfect for quick checks when you don't need anything fancy.
+
+The downside is they're bare-bones. No GUI, limited configuration, basic output. Fine for developers comfortable with the command line. Less great if you want visualization or easy result sharing.
+
+**k6** is more full-featured. You write your tests in JavaScript, which means you can do complex scenarios — user flows, dynamic data, conditional logic. It's become popular for teams that want scriptable tests they can version control.
+
+The learning curve is steeper though. You're writing code, not just running a command. For simple "hit this endpoint 1000 times" tests, it might be overkill.
+
+## The cloud freemium options
+
+Services like Loader.io and BlazeMeter offer free tiers. You don't install anything — tests run from their infrastructure. Good for testing from multiple geographic locations.
+
+But free tiers are limited. Caps on concurrent users, test duration, features. And your test data goes through their servers, which matters if you're testing authenticated endpoints or sensitive APIs.
+
+## The desktop approach
+
+Zoyla takes a different angle. It's a desktop app that runs locally. No cloud, no account creation, no data leaving your machine. You get a proper interface with visualized results, but everything stays on your computer.
+
+This matters for [local-first testing](/resources/local-first-testing) — when you don't want test data uploaded anywhere, or when you're testing internal services that aren't publicly accessible.
+
+The tradeoff is you're limited to what your machine can generate. For most API testing that's plenty. For simulating massive distributed load, you'd need something else.
+
+## Choosing between them
+
+If you want quick terminal-based tests: **wrk** or **hey**.
+
+If you want scriptable, version-controlled tests: **k6**.
+
+If you want a visual interface with local execution: **Zoyla**.
+
+If you need to test from multiple locations: cloud services.
+
+If you need enterprise features, compliance, support: paid tools.
+
+Most developers don't need the enterprise stuff. A free tool that gives you response times, throughput, and error rates is enough to catch the majority of performance problems.
+
+## What to look for
+
+Whatever tool you pick, make sure it shows you percentiles, not just averages. The [guide on latency percentiles](/resources/latency-percentiles-guide) explains why this matters.
+
+Also check that it can handle your authentication setup. If your API needs tokens or specific headers, the tool needs to support that.
+
+## Getting started
+
+Pick one and try it. Seriously, that's the best way. Run a test against something you're working on. See if the output makes sense. If the tool feels clunky or limiting, try another.
+
+For a comparison of desktop versus CLI approaches specifically, there's [desktop vs CLI load testing tools](/resources/desktop-vs-cli-load-testing).
+
+The best tool is the one you'll actually use. Fancy features don't matter if the friction stops you from testing at all.
+
+---
+
+If you want to try the desktop approach, [download Zoyla](/) — free, local-first, and ready in seconds.

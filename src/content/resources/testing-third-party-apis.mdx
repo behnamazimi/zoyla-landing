@@ -1,0 +1,95 @@
+---
+title: "Load Testing When You Depend on Third Parties"
+description: "How to load test your application when it depends on external APIs, payment processors, and other services you don't control."
+date: "2025-12-10"
+author: "Behnam Azimi"
+tags: ["dependencies", "third-party", "integration"]
+---
+
+Your application doesn't exist in isolation. It calls payment processors, sends emails, queries external databases, hits partner APIs. And when you load test, those dependencies become complicated.
+
+You can't just hammer a third-party API with 10,000 requests. They'll rate limit you. Or charge you. Or both.
+
+## The dependency problem
+
+When you load test, you're testing your whole stack. That includes external calls. But external services have their own limits, their own costs, their own terms of service.
+
+Hit Stripe's API 10,000 times in a minute? You'll find out about their rate limits real fast.
+
+Send 10,000 emails through your email provider? That's either expensive or prohibited.
+
+Query a partner API aggressively? You might violate your agreement with them.
+
+So what do you do?
+
+## Option 1: Mock the dependencies
+
+Replace external calls with mocks during testing. Instead of actually calling Stripe, return a fake success response.
+
+Advantages: You can test at any scale. No rate limits. No costs. Fast.
+
+Disadvantages: You're not testing the real integration. If the external service is slow, you won't see it. If there are network issues, you won't catch them.
+
+Mocking tells you how your system performs assuming dependencies are perfect. That's useful but incomplete.
+
+## Option 2: Use sandbox environments
+
+Many services offer sandbox or test environments. Stripe has test mode. Payment processors have sandbox accounts. Email services have testing tiers.
+
+These let you make real API calls without real consequences. You're testing actual integration code against actual (test) infrastructure.
+
+Advantages: More realistic than mocks. Tests real network behavior.
+
+Disadvantages: Sandboxes might have different performance than production. Rate limits might still apply. Not all services offer them.
+
+## Option 3: Test at reduced scale
+
+Instead of 10,000 requests, test 100. Extrapolate.
+
+If your system handles 100 requests to a third-party API with acceptable latency, it'll probably handle 1000 the same way — assuming the third party scales linearly.
+
+Advantages: Tests real integration. Stays within limits.
+
+Disadvantages: Extrapolation isn't proof. You might miss issues that only appear at scale.
+
+## Option 4: Isolate and test separately
+
+Test your system with mocked dependencies for scale testing. Then separately verify your integrations work correctly with real services at lower volume.
+
+This gives you both: confidence in your system's capacity and confidence in your integrations.
+
+## What you're really testing
+
+Be clear about your goals.
+
+If you want to know "can my server handle 10,000 RPS?" — mock the dependencies. The external calls aren't what you're measuring.
+
+If you want to know "how does my system behave when the payment API is slow?" — you need some level of real integration testing. Maybe with artificial delays added.
+
+If you want to know "will this third party handle our traffic?" — that's their problem, but you should understand their limits.
+
+## Handling slow dependencies
+
+External services add latency. A 200ms API call means 200ms added to your response time, minimum.
+
+Under load, this matters. If your system makes blocking calls to slow services, your capacity is limited by how fast those services respond.
+
+Test with realistic external latency. If your payment processor takes 500ms, don't mock it with 1ms responses. You'll get false confidence.
+
+For more on the latency side, see [throughput vs latency](/resources/throughput-vs-latency).
+
+## Rate limits and backoff
+
+If external services rate limit you, your system needs to handle that gracefully. Retry with backoff. Queue requests. Return appropriate errors to users.
+
+Load testing can verify this behavior works. Intentionally hit rate limits and watch how your system responds.
+
+## The practical approach
+
+1. Mock dependencies for pure capacity testing
+2. Use sandboxes for integration verification
+3. Test at reduced scale against real services periodically
+4. Understand the limits and costs of your dependencies
+5. Design your system to handle dependency failures gracefully
+
+Your system's performance includes your dependencies. Test accordingly.

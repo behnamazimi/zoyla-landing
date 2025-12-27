@@ -1,0 +1,95 @@
+---
+title: "Finding Your API's Breaking Point"
+description: "How to systematically find where your API fails under load — the process, what to look for, and what to do with that information."
+date: "2025-12-12"
+author: "Behnam Azimi"
+tags: ["stress-testing", "api", "capacity"]
+---
+
+Every system has a breaking point. The question is whether you find it in testing or your users find it in production.
+
+Stress testing is about intentionally pushing past normal limits to discover where things fail. Not if. Where.
+
+## The process
+
+Start with a baseline. Run a load test at your expected traffic level. Document the results — throughput, latency, error rate. This is your "normal."
+
+Then increase load. Double the concurrency. Run again. Compare to baseline. Still looking good? Double again.
+
+Keep going until something breaks. Latency spikes. Errors appear. Throughput plateaus. That's your breaking point.
+
+## What "breaking" looks like
+
+It's rarely dramatic. Servers don't usually explode. Instead, you see gradual degradation that suddenly becomes severe.
+
+**Latency cliff** — response times are steady, steady, steady, then jump 10x. You hit a resource limit. Queue times dominate.
+
+**Error spike** — error rate goes from 0.1% to 20% within a small load increase. Something ran out. Connections, memory, threads.
+
+**Throughput plateau** — you keep adding load but RPS stops increasing. You're saturated. More requests just wait longer.
+
+![Zoyla results showing a latency spike or error rate increase indicating breaking point](/ss-6.png)
+
+Sometimes you see all three at once. Sometimes one appears before the others. The pattern tells you something about what's failing.
+
+## Finding the exact threshold
+
+Once you know roughly where things break, narrow it down. If 100 concurrent users is fine and 200 breaks, test 150. Then 175 or 125 depending on results.
+
+This precision matters for capacity planning. "We break somewhere between 100 and 200 users" is less useful than "we break at 165 users."
+
+Zoyla makes this iteration fast. Adjust concurrency, run again, see results immediately. You can dial in the threshold in a few minutes.
+
+## What's actually failing
+
+The breaking point tells you where. Figuring out why requires more investigation.
+
+Check your server metrics during the test. CPU maxed out? That's your limit. Memory exhausted? Different problem. Database connections at maximum? There's your bottleneck.
+
+Common culprits:
+
+- Database connection pool exhausted
+- Thread pool full
+- Memory pressure triggering garbage collection
+- CPU saturation on compute-heavy endpoints
+- External service timeouts cascading
+
+Knowing which resource fails first tells you where to focus optimization or scaling. If the database is your bottleneck, the [database bottlenecks guide](/resources/database-bottlenecks) covers what to look for.
+
+## What to do with this information
+
+**Set capacity limits** — if you break at 500 RPS, don't promise 600. Build in margin.
+
+**Plan scaling triggers** — know when to add capacity before you hit the wall.
+
+**Prioritize optimization** — the first thing to fail is the first thing to fix.
+
+**Design graceful degradation** — if you know where you break, you can shed load before you get there.
+
+## The safety margin question
+
+How much headroom do you need? Depends on your traffic patterns.
+
+Steady, predictable traffic? 20% margin might be enough.
+
+Spiky traffic with sudden surges? You might need 2x or 3x headroom.
+
+Mission-critical with zero tolerance for degradation? More margin, or auto-scaling, or both.
+
+## Regular retesting
+
+Your breaking point changes. New code, new features, data growth, dependency changes. What broke at 500 RPS last month might break at 400 now. Or 600.
+
+Retest periodically. After major releases. After infrastructure changes. When you're planning for known traffic events.
+
+For more on timing, see [when should you actually load test](/resources/when-to-load-test).
+
+## The mindset
+
+Finding the breaking point isn't failure. It's information. Every system has limits. Knowing yours lets you work with them instead of being surprised by them.
+
+Break your system on purpose, in controlled conditions, so your users don't break it for you.
+
+---
+
+Ready to find your limits? [Download Zoyla](/) and start stress testing in minutes.

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono, DM_Sans, Source_Serif_4 } from "next/font/google";
+import { SITE_URL } from "@/lib/constants";
+import { GitHubBanner } from "@/components/ui";
 import "./globals.css";
 
 const jetbrainsMono = JetBrains_Mono({
@@ -23,7 +25,8 @@ const sourceSerif = Source_Serif_4({
 });
 
 export const metadata: Metadata = {
-  title: "Zoyla – HTTP Load Testing",
+  metadataBase: new URL(SITE_URL),
+  title: "Zoyla – HTTP Load Testing Simple and Fast",
   description:
     "Fast, lightweight HTTP load testing desktop app built with Rust. Get quick, reliable performance insights without the complexity.",
   keywords: [
@@ -37,7 +40,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Behnam Azimi" }],
   openGraph: {
-    title: "Zoyla – HTTP Load Testing",
+    title: "Zoyla – HTTP Load Testing Simple and Fast",
     description:
       "Fast, lightweight HTTP load testing desktop app built with Rust for quick, reliable performance insights.",
     url: "https://github.com/behnamazimi/zoyla",
@@ -46,7 +49,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Zoyla – HTTP Load Testing",
+    title: "Zoyla – HTTP Load Testing Simple and Fast",
     description:
       "Fast, lightweight HTTP load testing desktop app built with Rust.",
   },
@@ -60,9 +63,12 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${jetbrainsMono.variable} ${dmSans.variable} ${sourceSerif.variable} bg-[#0a0a0a] text-[#e8e8e8] antialiased`}
+        className={`${jetbrainsMono.variable} ${dmSans.variable} ${sourceSerif.variable} text-[#e8e8e8] antialiased`}
       >
-        {children}
+        <div className="relative min-h-screen bg-gradient-to-b from-[#0a0a0a] via-[#0d0d0d] to-[#080808]">
+          {children}
+          <GitHubBanner showDelay={5000} position="bottom" />
+        </div>
       </body>
     </html>
   );

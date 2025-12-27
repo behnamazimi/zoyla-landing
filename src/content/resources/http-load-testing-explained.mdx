@@ -1,0 +1,49 @@
+---
+title: "HTTP Load Testing Explained"
+description: "A straightforward explanation of HTTP load testing — what it is, why it matters, and how it helps you build reliable web applications."
+date: "2025-12-27"
+author: "Behnam Azimi"
+tags: ["basics", "load-testing", "http"]
+---
+
+HTTP load testing is exactly what it sounds like. You throw a bunch of HTTP requests at your server and see what happens. Does it handle the traffic? Does it slow down? Does it fall over completely? These are the questions you're trying to answer.
+
+The idea is simple. Your application works fine when one person uses it. But what about a hundred people? A thousand? Ten thousand hitting the same endpoint at the exact same moment? That's a very different situation. And you'd rather find out how your system behaves under pressure before your actual users do.
+
+## How it works
+
+You pick an endpoint — maybe your login API, maybe your product listing page, whatever you want to test. Then you configure how many requests to send and how many should happen simultaneously. That's your concurrency. Hit run, wait a bit, and look at the results.
+
+The test tool measures everything. How long each request took. How many succeeded. How many failed. What the distribution looks like. You get numbers you can actually use to make decisions.
+
+If you're curious about the specific metrics, there's a whole [guide on latency and throughput](/resources/understanding-latency-and-throughput) that breaks down what those numbers mean.
+
+## Why bother?
+
+Because production surprises are expensive. A slow API frustrates users. A crashed server loses you money. And debugging performance issues under pressure, while customers are complaining? That's nobody's idea of a good time.
+
+Load testing gives you information ahead of time. You learn your system's limits. You find bottlenecks before they become emergencies. You can actually plan capacity instead of guessing.
+
+Some teams skip this entirely. They ship and hope for the best. Sometimes that works out. But when it doesn't, the cost is usually much higher than the time it would've taken to run some tests.
+
+## When to do it
+
+Before major launches, obviously. But also after significant changes to your infrastructure or codebase. New database? Test it. Switched hosting providers? Test it. Rewrote that critical service? Definitely test it.
+
+There's a more detailed piece on [when load testing actually makes sense](/resources/when-to-load-test) if you want specifics.
+
+## The tools
+
+You've got options. CLI tools, cloud services, enterprise platforms with all the bells and whistles. Zoyla takes a different approach — it's a desktop app that runs locally on your machine. No accounts, no cloud uploads, just point it at your endpoint and go. The results show up right there, visualized and easy to read.
+
+For APIs specifically, the process is slightly different. Check out [API load testing basics](/resources/api-load-testing-basics) for that angle.
+
+## Getting started
+
+Start small. Pick one endpoint. Run a modest test — maybe 100 requests with 10 concurrent connections. Look at the results. Then scale up gradually until you find where things start to degrade.
+
+That's load testing in a nutshell. Not complicated. Just methodical.
+
+---
+
+Ready to start? [Download Zoyla](/) and run your first test in under a minute.

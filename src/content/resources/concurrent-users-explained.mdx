@@ -1,0 +1,86 @@
+---
+title: "What 'Concurrent Users' Actually Means"
+description: "Demystifying concurrent users — what the term means, how it relates to requests per second, and how to think about it for capacity planning."
+date: "2025-12-07"
+author: "Behnam Azimi"
+tags: ["concurrency", "capacity", "fundamentals"]
+---
+
+"We need to support 10,000 concurrent users." Okay. But what does that actually mean?
+
+The term gets thrown around loosely. Sometimes it means 10,000 people with the app open. Sometimes it means 10,000 simultaneous requests. These are very different things.
+
+## Concurrent users vs simultaneous requests
+
+A concurrent user is someone actively using your application right now. They have a session. They're doing things.
+
+But they're not making requests every millisecond. They click, wait, read, think, click again. Most of the time, they're not hitting your server at all.
+
+Simultaneous requests are different. That's how many HTTP requests your server is processing at the exact same moment.
+
+10,000 concurrent users might generate 100 simultaneous requests. Or 1,000. Depends on what they're doing.
+
+## The math
+
+If you have 10,000 concurrent users, each making 1 request every 10 seconds, that's 1,000 requests per second.
+
+If your average response time is 100ms, you need 100 connections to handle that throughput (1000 RPS × 0.1 seconds = 100 concurrent connections).
+
+So 10,000 concurrent users might only need 100 simultaneous connections. The relationship isn't 1:1.
+
+This is why [requests per second](/resources/requests-per-second-explained) is often a more useful metric than concurrent users. It's more concrete.
+
+## Think time matters
+
+Think time is the pause between user actions. Click, wait 5 seconds, click again. That 5 seconds is think time.
+
+More think time means fewer requests per user. A user who clicks every 2 seconds generates 5x more load than one who clicks every 10 seconds.
+
+When load testing, you need to model realistic think time. If you fire requests as fast as possible with no pause, you're simulating users who click 100 times per second. That's not realistic.
+
+## Load test concurrency
+
+When you configure concurrency in a load testing tool, you're setting simultaneous connections, not simulated users.
+
+50 concurrent connections with no think time is aggressive. It's 50 connections firing as fast as possible.
+
+50 concurrent connections with 1 second think time between requests is gentler. Each connection makes about 1 request per second.
+
+Match your test configuration to realistic user behavior. Otherwise your results won't reflect production.
+
+## Calculating capacity
+
+To figure out how many concurrent users you can support:
+
+1. Determine your maximum RPS (from load testing)
+2. Estimate requests per user per second (from analytics or observation)
+3. Divide: max users = max RPS / requests per user
+
+If you handle 5,000 RPS and users average 0.5 requests per second, you can support 10,000 concurrent users.
+
+This is simplified. Real traffic is bursty. You need headroom. But it's a starting point.
+
+## The terminology trap
+
+When someone says "concurrent users," ask what they mean. Are they talking about:
+
+- People with active sessions?
+- People actively viewing the app right now?
+- Simultaneous HTTP connections?
+- Requests per second?
+
+These all imply different capacity requirements. Clarifying upfront saves confusion later.
+
+## For load testing
+
+In Zoyla and most load testing tools, concurrency means simultaneous connections. When you set 100 concurrent, you're saying "maintain 100 active connections."
+
+This is different from simulating 100 users. Real users have think time, varied request patterns, different actions. 100 concurrent connections firing as fast as possible is more like 1000+ aggressive users.
+
+Start with lower concurrency than you think you need. Match real user behavior as closely as possible by understanding that your concurrency setting represents simultaneous connections, not actual users.
+
+## The takeaway
+
+Concurrent users is a fuzzy term. Requests per second is concrete. When planning capacity, translate user counts into request rates.
+
+For more on the relationship between load and performance, see [finding your API's breaking point](/resources/finding-api-breaking-point).

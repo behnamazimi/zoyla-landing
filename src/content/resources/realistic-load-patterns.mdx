@@ -1,0 +1,91 @@
+---
+title: "Creating Realistic Load Patterns"
+description: "How to design load tests that reflect real traffic patterns instead of artificial constant load."
+date: "2025-12-06"
+author: "Behnam Azimi"
+tags: ["patterns", "traffic", "simulation"]
+---
+
+Real traffic doesn't look like a flat line. It spikes, dips, surges, and fluctuates. Testing with constant load misses behaviors that only appear when traffic changes.
+
+Realistic load patterns reveal problems that steady-state testing hides.
+
+## Why constant load isn't enough
+
+Constant load testing — 100 RPS for 10 minutes — tells you how your system behaves at exactly 100 RPS. Useful, but limited.
+
+It doesn't tell you what happens when traffic suddenly doubles. Or when it drops and then surges back. Or during the morning ramp-up. Or during the evening wind-down.
+
+Systems often behave differently during transitions. Caches warm up. Connection pools adjust. Auto-scaling kicks in. These dynamics matter.
+
+## Common traffic patterns
+
+**Ramp up** — traffic increases gradually. Morning as users wake up. Start of business hours. This tests how your system handles growing load.
+
+**Spike** — sudden surge. Someone posted your link on social media. A marketing email went out. Flash sale started. This tests burst handling.
+
+**Step function** — discrete jumps in traffic. New deployment, traffic shifts. Feature launch, users flood in. Tests sudden state changes.
+
+**Diurnal cycle** — daily pattern. Low at night, high during day, peak at specific hours. Tests sustained operation across varying load.
+
+**Decline** — traffic dropping. End of day. After an event ends. Tests whether resources release properly.
+
+## Testing ramp-up
+
+Start at low load. Increase gradually over time. Watch how metrics change.
+
+Good systems show linear degradation. Double the load, response times increase proportionally.
+
+Problematic systems show cliffs. Everything's fine until a threshold, then sudden degradation. The ramp-up reveals where that threshold is.
+
+This is related to [finding your API's breaking point](/resources/finding-api-breaking-point), but with gradual discovery instead of binary search.
+
+## Testing spikes
+
+Sudden load increases stress different things than gradual ones.
+
+Connection pools might not have time to grow. Caches are cold for new request patterns. Auto-scaling hasn't triggered yet.
+
+Test by jumping from baseline to peak load instantly. Watch how long recovery takes. Some systems handle the spike gracefully. Others fall over and stay down.
+
+## Testing with Zoyla
+
+Zoyla's straightforward approach works well for pattern testing. Run a test at one load level, note results. Run at a higher level, compare.
+
+For spike testing, you can run sequential tests — baseline, then immediately high load. Watch how the system transitions.
+
+For sustained patterns, run longer tests and observe stability over time.
+
+## Matching production patterns
+
+If you have production analytics, use them. What does your traffic actually look like?
+
+Maybe you have predictable peaks at 9am and 2pm. Test those transitions specifically.
+
+Maybe you get random spikes from social media. Test sudden 3x surges.
+
+Maybe traffic is remarkably steady. Then constant load testing might actually be appropriate.
+
+## The think time factor
+
+Real users don't fire requests continuously. They pause, read, think. This affects how load translates to server requests.
+
+If you're simulating user behavior, include realistic pauses. If you're testing raw capacity, continuous requests are fine — just know what you're measuring.
+
+For more on this distinction, see [what concurrent users actually means](/resources/concurrent-users-explained).
+
+## Recovery testing
+
+What happens after a spike ends? Does your system return to normal immediately? Or does it stay degraded?
+
+Some systems accumulate state during high load — full queues, exhausted pools, fragmented memory. They need time to recover even after load drops.
+
+Test this by running high load, then dropping to baseline. Measure how long until metrics normalize.
+
+## The practical approach
+
+Start with constant load testing to establish baselines. Then add pattern testing for the scenarios that matter for your application.
+
+You don't need to simulate every possible pattern. Focus on the ones that reflect your actual traffic and the failure modes you're worried about.
+
+For setting baselines, see [setting performance baselines](/resources/performance-baselines).

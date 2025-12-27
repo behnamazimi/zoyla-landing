@@ -1,0 +1,71 @@
+---
+title: "Why Your Test Data Should Stay Local"
+description: "The case for local-first load testing — privacy, security, and practical benefits of keeping your test data on your own machine."
+date: "2025-12-19"
+author: "Behnam Azimi"
+tags: ["privacy", "local-first", "security"]
+---
+
+Cloud-based load testing is convenient. Sign up, paste your URL, run tests from servers around the world. But there's a tradeoff people don't always think about: your test data goes through someone else's infrastructure.
+
+For some tests, that's fine. For others, it's a problem.
+
+## What you're sending
+
+When you run a load test, you're not just sending a URL. You're often sending authentication tokens, API keys, session data. Your test requests might include realistic payloads with actual data structures. The responses contain whatever your API returns.
+
+All of that flows through the testing service's servers. They probably have good security. They probably don't look at your data. But "probably" isn't always good enough.
+
+## When it matters
+
+Testing internal APIs that aren't publicly accessible. You'd have to expose them to the internet for a cloud service to reach them. That's a security risk you might not want to take.
+
+Testing with production-like credentials. If your load test uses real API keys or tokens, those credentials now exist on external servers.
+
+Compliance requirements. Some industries have rules about where data can go. Healthcare, finance, government. Cloud testing might violate those rules.
+
+Simple paranoia. Maybe you just don't want your API structure and responses sitting on someone else's servers. That's valid too.
+
+## The local alternative
+
+Local-first tools run entirely on your machine. Zoyla is built this way. No cloud account, no data upload, no external servers involved. Your test configuration, your requests, your results — all stay on your computer.
+
+You can test internal services without exposing them. Your credentials never leave your machine. Compliance is simpler because data doesn't go anywhere.
+
+The tradeoff is you're limited to the load your machine can generate. For testing APIs during development, that's usually plenty. For simulating massive distributed attacks, you'd need something else.
+
+## Practical benefits
+
+Beyond security, there are practical advantages.
+
+No account creation. No subscription management. No wondering if you're within free tier limits.
+
+Works offline. Testing against local development servers doesn't require internet access.
+
+Faster iteration. No waiting for cloud infrastructure to spin up. Run a test, see results, adjust, repeat.
+
+For the [simple load testing setup](/resources/simple-load-testing-setup) most developers need, local tools are often the better fit.
+
+## When cloud makes sense
+
+If you need to test from multiple geographic locations, cloud services have an advantage. Your machine is in one place. Cloud services can run tests from servers worldwide.
+
+If you need to generate more load than a single machine can produce, distributed cloud testing handles that.
+
+If you're testing public APIs and don't care about data exposure, cloud services are convenient.
+
+## Making the choice
+
+Think about what you're testing. Internal or public? Sensitive data or not? How much load do you actually need?
+
+For most API development and testing, local tools handle the job. Save the cloud services for when you specifically need their capabilities.
+
+The [desktop vs CLI comparison](/resources/desktop-vs-cli-load-testing) covers more about local tool options.
+
+Your data, your machine, your control. Sometimes that's exactly what you need.
+
+For a deeper dive into Zoyla's local-first architecture, see [why Zoyla is local-first](/features/local-first-load-testing).
+
+---
+
+Want local-first load testing? [Download Zoyla](/) — no account, no cloud, just results.

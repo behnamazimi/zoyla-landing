@@ -1,0 +1,65 @@
+---
+title: "When Should You Actually Load Test?"
+description: "A practical guide to when load testing makes sense, when it's overkill, and how to fit it into your development workflow."
+date: "2025-12-24"
+author: "Behnam Azimi"
+tags: ["best-practices", "workflow", "timing"]
+---
+
+Not everything needs load testing. A personal blog with ten visitors a day? Probably fine. But a checkout API handling real money during a flash sale? Yeah, you should test that.
+
+The question isn't whether load testing is good. It's whether it's worth your time right now, for this particular thing.
+
+## Before major launches
+
+This one's obvious. You're about to go live with something new. You expect traffic. You want to know it won't immediately fall over.
+
+Run your load tests against staging. Simulate realistic traffic patterns. If things look good, ship with confidence. If they don't, you just saved yourself a very public failure.
+
+## After significant changes
+
+New database? Load test. New hosting provider? Load test. Rewrote a critical service? Definitely load test.
+
+Any change that touches performance-sensitive parts of your stack deserves verification. It doesn't have to be extensive. Just enough to confirm you haven't accidentally made things worse.
+
+The [stress testing vs load testing](/resources/stress-testing-vs-load-testing) piece explains when to go beyond basic validation.
+
+## When you're scaling up
+
+Expecting a traffic spike? Maybe you got featured somewhere, or you're running a promotion, or it's your industry's busy season. This is exactly when you want to know your limits.
+
+Run tests at your expected peak load. Then push a bit beyond to see where the ceiling is. Better to find out in a controlled test than during the actual event. The [finding your API's breaking point](/resources/finding-api-breaking-point) guide walks through this process.
+
+## When performance feels off
+
+Users complaining about slowness? Seeing higher error rates than usual? Before you start randomly optimizing things, get data.
+
+A quick load test can tell you whether the problem is capacity-related or something else entirely. Maybe your system handles load fine and the issue is a specific slow query. Maybe it really is capacity. Either way, now you know.
+
+## When you probably don't need to
+
+Early prototypes. Internal tools with five users. Anything where the cost of failure is low and the likelihood of significant traffic is near zero.
+
+Load testing takes time. Setting up the tests, running them, analyzing results. If you're iterating fast on something small, that time might be better spent elsewhere.
+
+That said, once something starts mattering — once real users depend on it — the calculus changes.
+
+## Making it routine
+
+The teams that do this well don't treat load testing as a special event. They build it into their workflow. Before every release. After every significant deploy. Automated, or at least habitual.
+
+Zoyla helps here because it's quick. No cloud setup, no configuration files. Open the app, point it at your endpoint, run the test. Results in seconds. Low enough friction that you might actually do it regularly.
+
+For more on building this into your process, there's [making load testing part of your workflow](/resources/continuous-performance-testing).
+
+## The minimum viable approach
+
+If you're doing nothing right now, start with this: before your next significant release, run one load test against your most critical endpoint. Just one. See what you learn.
+
+That's often enough to catch the obvious problems. And once you see the value, you'll naturally expand from there.
+
+Don't overthink it. Test when it matters. Skip it when it doesn't. But be honest about which is which.
+
+---
+
+Ready to start? [Download Zoyla](/) and run your first test today.

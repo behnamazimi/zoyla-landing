@@ -1,0 +1,69 @@
+---
+title: "Setting Up a Proper Test Environment"
+description: "How to create a test environment that gives you meaningful load testing results instead of misleading numbers."
+date: "2025-12-18"
+author: "Behnam Azimi"
+tags: ["environment", "staging", "setup"]
+---
+
+You can have the best load testing tool in the world and still get useless results. The problem isn't the tool. It's what you're testing against.
+
+A test environment that doesn't match production gives you numbers that don't mean anything. You optimize for the wrong things. You miss problems that only appear at scale. You ship with false confidence.
+
+## The data problem
+
+This is the biggest one. Your test database has 1000 users. Production has 10 million. Your queries are fast because there's nothing to query.
+
+Database performance doesn't scale linearly. Indexes that work fine with small datasets become bottlenecks with large ones. Query plans change. Memory usage changes. Disk I/O patterns change.
+
+If you want realistic results, you need realistic data volume. Either use a copy of production data (sanitized if needed) or generate synthetic data at production scale.
+
+## The hardware gap
+
+Testing on a laptop against a production server with 64GB RAM and 16 cores? Your results won't transfer.
+
+The ideal is testing against identical hardware. If that's not possible, at least understand the differences and factor them in. A server with 4x the resources will handle roughly 4x the load — but not always linearly.
+
+Cloud environments help here. Spin up a staging instance that matches production specs, run your tests, tear it down.
+
+## Network considerations
+
+Your test client's location matters. Testing from the same data center as your server? Network latency is near zero. Real users might be 100ms away.
+
+This doesn't invalidate your tests, but you need to interpret them correctly. If your test shows 50ms response times and users are 100ms away, they'll see 150ms minimum.
+
+For more on this and other pitfalls, check out [load testing mistakes that waste your time](/resources/load-testing-mistakes).
+
+## External dependencies
+
+Your application probably calls other services. Databases, caches, third-party APIs. In production, these have their own performance characteristics.
+
+In testing, you have choices. Use the real dependencies (most realistic, but might be expensive or impractical). Use mocks (fast but might hide real bottlenecks). Use a staging version of dependencies (middle ground).
+
+Whatever you choose, know what you're testing. If you mock your database, you're not testing database performance.
+
+## The cache situation
+
+Caches in test environments often behave differently than production. Maybe they're smaller. Maybe they're empty at the start of each test. Maybe they're on the same machine instead of a separate server.
+
+Consider running tests with cold caches to see worst-case performance. Then run with warm caches to see typical performance. Both numbers are useful.
+
+## A practical checklist
+
+Before running load tests, verify:
+
+- Data volume is production-like (or you understand the difference)
+- Hardware specs are comparable (or you can adjust expectations)
+- External dependencies are realistic (or you know what you're mocking)
+- Cache behavior matches production (or you're testing both cold and warm)
+- Network latency is accounted for
+
+You don't need perfection. You need to understand your test environment well enough to interpret results correctly.
+
+## When good enough is enough
+
+For early development, testing against your local machine is fine. You're looking for obvious problems, not precise production numbers.
+
+As you get closer to launch, environment fidelity matters more. The [when to load test](/resources/when-to-load-test) guide covers timing in more detail.
+
+Match the environment to the stakes. Quick development checks don't need production mirrors. Pre-launch validation does.

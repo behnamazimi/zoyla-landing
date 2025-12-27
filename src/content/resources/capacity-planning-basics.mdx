@@ -1,0 +1,106 @@
+---
+title: "Capacity Planning Without Guessing"
+description: "How to use load testing data for capacity planning — predicting resource needs, planning for growth, and avoiding over-provisioning."
+date: "2025-12-04"
+author: "Behnam Azimi"
+tags: ["capacity", "planning", "scaling"]
+---
+
+Capacity planning is predicting how much infrastructure you need. Too little and you crash under load. Too much and you're wasting money.
+
+Load testing turns this from guessing into calculating.
+
+## The basic equation
+
+You need to know three things:
+
+1. How much load you expect (requests per second, concurrent users, whatever metric fits)
+2. How much load your current setup handles (from load testing)
+3. The gap between them
+
+If you expect 10,000 RPS and your current setup handles 5,000 RPS, you need to roughly double your capacity. Simple math.
+
+The hard part is getting accurate numbers for each piece.
+
+## Measuring current capacity
+
+Run load tests until you find your limits. Not just "it works at this level" but "it breaks at this level."
+
+Your comfortable operating capacity is somewhere below the breaking point. Maybe 70-80% of maximum. You need headroom for traffic spikes and unexpected load.
+
+For finding the breaking point, see [finding your API's breaking point](/resources/finding-api-breaking-point).
+
+## Estimating future load
+
+This is where it gets fuzzy. You're predicting the future.
+
+If you have historical data, extrapolate. Traffic grew 20% last year, expect similar growth. Seasonal patterns repeat.
+
+If you're launching something new, estimate conservatively. Then add margin. Then add more margin. New launches are unpredictable.
+
+If you have a specific event — product launch, marketing campaign, expected viral moment — estimate the peak load, not the average.
+
+## Scaling math
+
+If your system scales linearly, doubling resources doubles capacity. This is often roughly true for horizontal scaling — twice the servers, twice the throughput.
+
+But not always. Database bottlenecks don't scale linearly. Shared resources become contention points. Some architectures have scaling cliffs.
+
+Test at different scales to understand your scaling curve. If 2 servers handle 1000 RPS and 4 servers handle 1800 RPS (not 2000), you know scaling isn't linear.
+
+## The cost tradeoff
+
+More capacity costs more money. Less capacity risks outages.
+
+The right balance depends on your situation. A consumer app might tolerate occasional slowdowns. A financial system might not.
+
+Calculate the cost of under-provisioning (lost revenue, reputation damage, SLA penalties) versus over-provisioning (wasted infrastructure spend). Make an informed decision.
+
+## Auto-scaling considerations
+
+Cloud platforms offer auto-scaling. Capacity adjusts to load automatically. Problem solved?
+
+Not quite. Auto-scaling has lag. Traffic spikes faster than new instances spin up. You still need baseline capacity to handle initial surges.
+
+Load test your auto-scaling. Simulate traffic spikes and measure how quickly capacity adjusts. If it takes 5 minutes to scale up and your traffic spike lasts 2 minutes, auto-scaling won't help.
+
+## Planning horizons
+
+Short-term: do you have enough capacity for the next traffic event? The holiday sale, the product launch, the marketing push.
+
+Medium-term: do you have enough for the next quarter? Factor in expected growth.
+
+Long-term: what's your scaling strategy for the next year? When do you need architectural changes versus just adding servers?
+
+Different horizons need different planning approaches.
+
+## The capacity planning document
+
+Write down your numbers:
+
+- Current capacity (from load testing)
+- Current usage (from production monitoring)
+- Headroom (capacity minus usage)
+- Expected growth rate
+- Planned events that might spike traffic
+- Trigger points for scaling decisions
+
+Review periodically. Update after major changes. Use it for budget planning.
+
+## When to scale
+
+Don't wait until you're at capacity. Scale when you're approaching it.
+
+If you're at 80% capacity and growing 10% monthly, you'll hit limits in 2 months. Start the scaling process now.
+
+For more on tracking this over time, see [setting performance baselines](/resources/performance-baselines).
+
+## The practical approach
+
+1. Load test to find current capacity
+2. Monitor production to know current usage
+3. Estimate future load based on growth and events
+4. Calculate the gap
+5. Plan scaling to close the gap before you need it
+
+That's capacity planning. Not guessing. Calculating.

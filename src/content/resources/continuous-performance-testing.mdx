@@ -1,0 +1,99 @@
+---
+title: "Making Load Testing Part of Your Workflow"
+description: "How to integrate load testing into your development process so it happens consistently, not just before major releases."
+date: "2025-12-03"
+author: "Behnam Azimi"
+tags: ["workflow", "ci-cd", "automation"]
+---
+
+Load testing that only happens before big releases catches problems too late. By then, you're scrambling to fix things under deadline pressure.
+
+Regular load testing catches regressions early, when they're cheap to fix.
+
+## The problem with occasional testing
+
+You test before a major release. Everything looks good. Ship it.
+
+Three months later, you test again before the next release. Performance is 40% worse. What changed?
+
+Good luck figuring that out. Dozens of commits, multiple features, infrastructure changes. The regression could be anywhere.
+
+## The continuous approach
+
+Test more often. After significant changes. Weekly. On every merge to main. The more frequently you test, the smaller the window where regressions can hide.
+
+When performance degrades, you know it happened recently. The suspect list is short. Finding the cause is fast.
+
+## What to test continuously
+
+You don't need to run your full test suite every time. That would be slow and expensive.
+
+Pick critical endpoints. The ones where performance matters most. Test those frequently.
+
+Run comprehensive tests less often — weekly, or before releases. Run focused tests more often — daily, or on every merge.
+
+## Automated testing in CI/CD
+
+For teams with mature CI/CD, performance tests can run automatically.
+
+On every pull request: quick smoke test. Does this change break anything obvious?
+
+On merge to main: baseline test against critical endpoints. Compare to stored baselines.
+
+Nightly: comprehensive test suite. Find issues before they compound.
+
+The key is failing builds when performance regresses beyond thresholds. Make performance a gate, not an afterthought.
+
+## Manual testing that's still regular
+
+Not everyone has automated pipelines. That's fine. Regular manual testing still works.
+
+Schedule it. Every Monday, run your standard load test. Takes 15 minutes. Document results. Compare to last week.
+
+The habit matters more than the automation. Consistent testing catches regressions regardless of how the tests are triggered.
+
+Zoyla makes manual testing quick enough to be practical. Open the app, configure your test, run it, review results. Low enough friction to actually do it regularly.
+
+![Zoyla showing test configuration ready for a routine performance check](/ss-2.png)
+
+## What to track
+
+Keep a simple log of test results over time. Date, key metrics, any notable changes.
+
+Plot the trend. Is p95 latency creeping up? Is throughput declining? Trends are easier to spot in a graph than in raw numbers.
+
+For more on this, see [setting performance baselines](/resources/performance-baselines).
+
+## Responding to regressions
+
+When you catch a regression, investigate immediately. The change is recent. The cause is findable.
+
+Look at recent commits. What touched performance-sensitive code? What changed in dependencies? What infrastructure changes happened?
+
+Often the cause is obvious once you look. A new feature added an expensive query. A dependency update changed behavior. A configuration tweak had unintended effects.
+
+## The cultural shift
+
+Making load testing routine requires buy-in. Developers need to see it as part of their job, not someone else's problem.
+
+Start small. Show value. When continuous testing catches a regression before it hits production, celebrate that. Build the case for more testing.
+
+## Starting point
+
+If you're doing nothing now, start with this:
+
+1. Pick one critical endpoint
+2. Run a load test against it
+3. Document the results
+4. Schedule a recurring reminder to test again next week
+5. Compare results each time
+
+That's the foundation. Expand from there as you see value.
+
+## The long game
+
+Teams that test continuously have fewer surprises. They catch regressions early. They ship with confidence. They spend less time firefighting production issues.
+
+It's an investment that pays off over time. The first few tests might not find anything. Keep going. When they do find something, you'll be glad you were testing.
+
+For the fundamentals of what to test, start with [HTTP load testing explained](/resources/http-load-testing-explained). And Zoyla's [history feature](/features/test-history-export) makes tracking results over time automatic — every test is saved, so you can always compare current performance to previous runs.

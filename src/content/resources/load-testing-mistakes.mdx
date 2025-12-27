@@ -1,0 +1,57 @@
+---
+title: "5 Load Testing Mistakes That Waste Your Time"
+description: "Common load testing mistakes that give you misleading results and how to avoid them."
+date: "2025-12-23"
+author: "Behnam Azimi"
+tags: ["mistakes", "best-practices", "pitfalls"]
+---
+
+Load testing seems straightforward. Send requests, measure responses, done. But there are ways to get it wrong that waste your time and give you numbers that mean nothing. Here are the ones I see most often.
+
+## 1. Testing against unrealistic data
+
+Your production database has 10 million users. Your test database has 500. You run your load test and everything looks great. Queries are fast. Response times are low. You ship to production and wonder why everything is slow.
+
+Database performance changes dramatically with data volume. Indexes that work fine with small datasets become bottlenecks at scale. Query plans change. Memory usage changes.
+
+If you want realistic results, you need realistic data. Either test against a production-like dataset or at least understand that your small-data results are optimistic.
+
+## 2. Ignoring the cache situation
+
+First request: 200ms. Next 99 requests: 5ms each. Average: 7ms. Looks amazing.
+
+But those 99 fast requests were served from cache. In production, with varied requests from different users, your cache hit rate might be much lower. Your actual average might be closer to 150ms.
+
+Run tests that account for cache behavior. Either test with cache disabled, or test with enough variety that you're not just measuring cached responses.
+
+## 3. Testing from the wrong location
+
+You're testing from your office, which is 20ms from your server. Your users are 200ms away. Your test shows 50ms response times. Users experience 230ms.
+
+Network latency is real. If your test client is too close to your server, you're not seeing what users see. Either test from a realistic location or at least add the expected network latency to your mental model.
+
+## 4. Not ramping up gradually
+
+You configure 1000 concurrent users and hit start. Everything immediately falls over. Test failed. But did it fail at 1000 users? Or 50? Or 10? You have no idea.
+
+Gradual ramp-up gives you useful information. Start low, increase over time, watch where things degrade. This tells you not just that your system fails, but where it fails. Much more actionable.
+
+The [finding your API's breaking point](/resources/finding-api-breaking-point) guide covers this approach in detail.
+
+## 5. Running once and calling it done
+
+You run one test, get good numbers, ship. A week later, performance is terrible. What happened?
+
+Single test runs have noise. Network hiccups, garbage collection pauses, background processes, whatever. Run your tests multiple times. Look for consistency. If results vary wildly between runs, that's information too.
+
+Also, one-time testing misses regressions. Something that worked last month might not work now. Regular testing catches drift before it becomes a problem.
+
+## The common thread
+
+All of these mistakes share something: they produce numbers that look valid but don't reflect reality. You make decisions based on those numbers. The decisions turn out to be wrong.
+
+The fix is always the same. Think about what you're actually measuring. Ask whether it represents real conditions. Be skeptical of results that seem too good.
+
+Zoyla makes it easy to run tests quickly, which helps with the "run multiple times" problem. But the tool can't think for you about whether your test setup is realistic. That part's on you.
+
+For the basics of what you should be testing, check out [HTTP load testing explained](/resources/http-load-testing-explained). And for setting up a proper test environment, there's [setting up a proper test environment](/resources/load-testing-staging-environment).

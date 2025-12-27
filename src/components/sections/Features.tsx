@@ -1,9 +1,11 @@
+import Link from "next/link";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 
 interface FeatureCardProps {
   category: string;
   title: string;
   description: string;
+  href: string;
   delay?: number;
   className?: string;
   size?: "small" | "large";
@@ -13,6 +15,7 @@ function FeatureCard({
   category,
   title,
   description,
+  href,
   delay = 0,
   className = "",
   size = "small",
@@ -28,8 +31,9 @@ function FeatureCard({
 
   return (
     <AnimatedSection delay={delay} className={className}>
-      <div
-        className={`h-full rounded-2xl bg-linear-to-br p-8 ${gradient} border border-[#252525] transition-colors hover:border-[#353535]`}
+      <Link
+        href={href}
+        className={`block h-full rounded-2xl bg-linear-to-br p-8 ${gradient} border border-[#252525] transition-colors hover:border-[#454545]`}
       >
         <div
           className="mb-4 text-xs tracking-wider text-[#b8ff57] uppercase"
@@ -49,34 +53,37 @@ function FeatureCard({
         >
           {description}
         </p>
-      </div>
+      </Link>
     </AnimatedSection>
   );
 }
 
 const features = [
   {
-    category: "Privacy",
-    title: "Local-first",
-    description:
-      "No cloud, no account, no telemetry. Runs entirely on your machine. Your test data stays with you.",
-    delay: 0,
-    className: "lg:col-span-2",
-    size: "large" as const,
-  },
-  {
     category: "Performance",
     title: "Rust-powered",
     description:
       "Fast, efficient backend with minimal overhead. Built with Tauri.",
-    delay: 100,
+    href: "/features/rust-powered-performance",
+    delay: 0,
+    className: "lg:col-span-2",
     size: "small" as const,
+  },
+  {
+    category: "Privacy",
+    title: "Local-first",
+    description:
+      "No cloud, no account, no telemetry. Runs entirely on your machine. Your test data stays with you.",
+    href: "/features/local-first-load-testing",
+    delay: 100,
+    size: "large" as const,
   },
   {
     category: "Insights",
     title: "Real metrics",
     description:
       "RPS, latency percentiles, throughput charts with live updates.",
+    href: "/features/load-testing-metrics",
     delay: 150,
     size: "small" as const,
   },
@@ -85,6 +92,7 @@ const features = [
     title: "History & Export",
     description:
       "Full history of all your tests—never lose previous results. Export to JSON and CSV for further analysis.",
+    href: "/features/test-history-export",
     delay: 200,
     className: "lg:col-span-2",
     size: "large" as const,
