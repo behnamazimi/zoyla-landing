@@ -112,7 +112,7 @@ function Anchor({ children, href, ...props }: AnchorProps) {
   return (
     <a
       href={href}
-      className="text-[var(--accent)] underline decoration-[var(--accent)]/30 underline-offset-2 transition-colors hover:decoration-[var(--accent)]"
+      className="text-(--accent) underline decoration-[var(--accent)]/30 underline-offset-2 transition-colors hover:decoration-[var(--accent)]"
       target={isExternal ? "_blank" : undefined}
       rel={isExternal ? "noopener noreferrer" : undefined}
       {...props}
@@ -137,7 +137,7 @@ function Blockquote({ children, ...props }: BlockquoteProps) {
 function InlineCode({ children, ...props }: CodeProps) {
   return (
     <code
-      className="rounded bg-[#1a1a1a] px-1.5 py-0.5 text-sm text-[var(--accent)]"
+      className="rounded bg-[#1a1a1a] px-1.5 py-0.5 text-sm text-(--accent)"
       style={{ fontFamily: "var(--font-mono)" }}
       {...props}
     >

@@ -22,7 +22,7 @@ Stress testing pushes past normal. You keep adding load until something breaks. 
 
 This is intentionally destructive. You want to find the ceiling. At what point do response times become unacceptable? When do errors start spiking? What's the first thing to give out — CPU, memory, database connections, something else?
 
-Knowing your breaking point is valuable. It tells you how much headroom you have. It reveals which component is the weakest link. And it shows you how your system degrades — gracefully or catastrophically.
+Knowing your breaking point is valuable. It tells you how much headroom you have. It reveals which component is the weakest link. And it shows you how your system degrades — gracefully or catastrophically. For a methodical approach, see [finding your API's breaking point](/resources/finding-api-breaking-point).
 
 ## When to use which
 
@@ -30,7 +30,7 @@ Load testing should happen regularly. Before any significant release. After infr
 
 Stress testing is more occasional. When you're doing capacity planning. When you've made major architectural changes. When you need to understand your limits, not just verify you're within them.
 
-Some teams run both together. Start with a load test at expected levels, then ramp up into stress territory to see where things break. That gives you the full picture.
+Some teams run both together. Start with a load test at expected levels, then ramp up into stress territory to see where things break. That gives you the full picture. For time-based issues that neither catches, there's [soak testing](/resources/soak-testing-guide).
 
 ## What the results tell you
 
@@ -54,7 +54,7 @@ Start with load testing. Confirm your system handles expected traffic. Document 
 
 Then do stress testing. Push until you find the limits. Document where things break and how.
 
-Now you have two useful data points: what you can comfortably handle, and where you absolutely cannot go. The gap between them is your safety margin.
+Now you have two useful data points: what you can comfortably handle, and where you absolutely cannot go. The gap between them is your safety margin. The [capacity planning basics](/resources/capacity-planning-basics) guide shows how to use these numbers.
 
 That's the difference. Load testing validates. Stress testing explores. You probably need both.
 

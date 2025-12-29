@@ -58,7 +58,7 @@ To figure out how many concurrent users you can support:
 
 If you handle 5,000 RPS and users average 0.5 requests per second, you can support 10,000 concurrent users.
 
-This is simplified. Real traffic is bursty. You need headroom. But it's a starting point.
+This is simplified. Real traffic is bursty. You need headroom. But it's a starting point. For more on the math behind this, see [understanding latency and throughput](/resources/understanding-latency-and-throughput).
 
 ## The terminology trap
 
@@ -81,6 +81,6 @@ Start with lower concurrency than you think you need. Match real user behavior a
 
 ## The takeaway
 
-Concurrent users is a fuzzy term. Requests per second is concrete. When planning capacity, translate user counts into request rates.
+Concurrent users is a fuzzy term. Requests per second is concrete. When planning capacity, translate user counts into request rates. The [capacity planning basics](/resources/capacity-planning-basics) guide shows how to do this systematically.
 
 For more on the relationship between load and performance, see [finding your API's breaking point](/resources/finding-api-breaking-point).

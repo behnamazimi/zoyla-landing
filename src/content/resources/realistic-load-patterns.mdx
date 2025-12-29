@@ -14,7 +14,7 @@ Realistic load patterns reveal problems that steady-state testing hides.
 
 Constant load testing — 100 RPS for 10 minutes — tells you how your system behaves at exactly 100 RPS. Useful, but limited.
 
-It doesn't tell you what happens when traffic suddenly doubles. Or when it drops and then surges back. Or during the morning ramp-up. Or during the evening wind-down.
+It doesn't tell you what happens when traffic suddenly doubles. Or when it drops and then surges back. Or during the morning ramp-up. Or during the evening wind-down. For an in-depth look at the difference, see [stress testing vs load testing](/resources/stress-testing-vs-load-testing).
 
 Systems often behave differently during transitions. Caches warm up. Connection pools adjust. Auto-scaling kicks in. These dynamics matter.
 
@@ -86,6 +86,6 @@ Test this by running high load, then dropping to baseline. Measure how long unti
 
 Start with constant load testing to establish baselines. Then add pattern testing for the scenarios that matter for your application.
 
-You don't need to simulate every possible pattern. Focus on the ones that reflect your actual traffic and the failure modes you're worried about.
+You don't need to simulate every possible pattern. Focus on the ones that reflect your actual traffic and the failure modes you're worried about. The [testing before launch](/resources/testing-before-launch) checklist covers what to verify before major releases.
 
 For setting baselines, see [setting performance baselines](/resources/performance-baselines).

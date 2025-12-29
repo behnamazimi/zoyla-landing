@@ -30,7 +30,7 @@ These are the serious ones. If you're seeing 5xx errors, something is wrong.
 
 During load testing, 429s are expected if you have rate limiting. The others might indicate test configuration issues.
 
-**Timeouts** — the server didn't respond in time. Could mean it's overloaded. Could mean a request got stuck. Could mean network issues.
+**Timeouts** — the server didn't respond in time. Could mean it's overloaded. Could mean a request got stuck. Could mean network issues. The [timeout configuration guide](/resources/timeout-configuration-testing) covers how to set these correctly.
 
 ## What error rates tell you
 
@@ -44,7 +44,7 @@ The pattern matters too. Gradual increase suggests graceful degradation. Sudden 
 
 This depends on context. For a load test at expected traffic levels, you probably want under 0.1% errors. Ideally zero.
 
-For stress testing where you're intentionally pushing past limits, higher error rates are expected. The goal is finding where errors start, not avoiding them entirely.
+For [stress testing](/resources/stress-testing-vs-load-testing) where you're intentionally pushing past limits, higher error rates are expected. The goal is finding where errors start, not avoiding them entirely.
 
 For production monitoring, even 0.1% might be too high depending on your scale. At 1 million requests per day, 0.1% is 1000 errors.
 
@@ -64,7 +64,7 @@ Zoyla's results show status code breakdown, which helps with this analysis. For 
 
 **Errors increase linearly with load** — you're hitting capacity. Each additional request has some chance of failing because resources are constrained.
 
-**Errors spike suddenly at a threshold** — you hit a hard limit. Connection pool exhausted, thread pool full, rate limiter kicked in.
+**Errors spike suddenly at a threshold** — you hit a hard limit. Connection pool exhausted, thread pool full, rate limiter kicked in. This is your [breaking point](/resources/finding-api-breaking-point).
 
 **Errors appear after time, not load** — resource leak. Memory filling up, connections not being released, something accumulating.
 

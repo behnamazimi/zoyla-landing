@@ -1,0 +1,79 @@
+---
+title: "The Performance Cost of HTTPS: What Load Tests Reveal"
+description: "Understanding SSL/TLS overhead in API performance — handshake costs, connection reuse, and what the numbers actually look like."
+date: "2025-12-23"
+author: "Behnam Azimi"
+tags: ["ssl", "tls", "https", "security"]
+---
+
+Every production API uses HTTPS. You don't have a choice — it's table stakes for security. But encryption isn't free. There's overhead, and under load, that overhead matters.
+
+Most developers never measure it. They should.
+
+## The handshake cost
+
+The expensive part of TLS is the handshake. When a new connection is established, client and server exchange certificates, negotiate cipher suites, and generate session keys. This involves public key cryptography, which is computationally expensive.
+
+A TLS 1.2 handshake might add 50-100ms to the first request on a connection. TLS 1.3 improved this significantly — often under 50ms. But it's still not zero.
+
+For APIs where clients make many short-lived connections, this adds up. For APIs with connection reuse, it's a one-time cost per connection. The [cold start performance](/resources/cold-start-performance) guide covers first-request latency in more detail.
+
+## Connection reuse changes everything
+
+If you're reusing connections (HTTP keep-alive), the handshake happens once. Subsequent requests on that connection skip it entirely. The per-request overhead becomes negligible — just the symmetric encryption of the actual data.
+
+Modern HTTP clients reuse connections by default. But load testing tools might not. Check your tool's configuration. If it's creating a new connection per request, you're measuring worst-case TLS overhead, not realistic performance.
+
+Zoyla reuses connections like a real client would, so you see realistic numbers.
+
+## Measuring the difference
+
+To see TLS overhead specifically, test the same endpoint over HTTP and HTTPS. The difference is your TLS cost.
+
+On a local network with modern hardware, the difference might be 1-2ms per request with connection reuse. Without reuse, it could be 50ms+ per request.
+
+If you're testing against localhost, the numbers will be tiny because there's no network latency. Test against a remote server for realistic measurements.
+
+## CPU cost
+
+Encryption uses CPU. Under high load, TLS processing can become a bottleneck.
+
+Watch server CPU during load tests. If you're maxing out CPU and response times are climbing, TLS overhead might be contributing. Modern CPUs have hardware acceleration for common ciphers (AES-NI), which helps a lot. Make sure it's enabled. The [benchmarking REST APIs](/resources/benchmarking-rest-apis) guide covers how to measure these differences properly.
+
+## Certificate chain length
+
+Longer certificate chains take longer to verify. If your certificate has a long chain (root → intermediate → intermediate → leaf), each verification step adds time.
+
+Keep your chain short. Most certificates need one intermediate. If you have more, ask why.
+
+## Session resumption
+
+TLS supports session resumption — reusing previous session parameters to skip the full handshake on reconnection. This matters for clients that disconnect and reconnect frequently.
+
+Test with session resumption enabled and disabled. If your clients reconnect often, resumption can significantly reduce overhead.
+
+## The practical impact
+
+For most APIs, TLS overhead is small relative to actual request processing. If your endpoint takes 100ms to process a database query, the 2ms TLS overhead is noise.
+
+But for very fast endpoints — health checks, cached responses, simple lookups — TLS overhead might be a meaningful percentage of total response time.
+
+The [response time optimization](/resources/response-time-optimization) guide covers where time actually goes in your requests.
+
+## What to do about it
+
+Enable HTTP/2. It multiplexes requests over a single connection, amortizing the handshake cost across many requests.
+
+Use TLS 1.3. It's faster than 1.2.
+
+Enable connection pooling in your clients. Reuse connections.
+
+Use hardware with AES-NI support. Most modern CPUs have it.
+
+Keep certificate chains short.
+
+For internal APIs where security requirements allow, you might skip TLS entirely. But for anything public-facing, the overhead is just the cost of doing business. The [connection pooling performance](/resources/connection-pooling-performance) guide covers connection reuse in more detail.
+
+---
+
+Want to measure your TLS overhead? [Download Zoyla](/) and compare HTTP vs HTTPS performance.

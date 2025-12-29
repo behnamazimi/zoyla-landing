@@ -20,7 +20,7 @@ If you're new to the general concept, [HTTP load testing explained](/resources/h
 
 ## Authentication matters
 
-Most APIs require some form of authentication. Tokens, API keys, session cookies. Your load test needs to handle this correctly or you're just testing your auth rejection flow a thousand times.
+Most APIs require some form of authentication. Tokens, API keys, session cookies. Your load test needs to handle this correctly or you're just testing your auth rejection flow a thousand times. For a deeper dive, see [load testing login and auth endpoints](/resources/load-testing-authentication-endpoints).
 
 For token-based auth, you'll typically generate a valid token beforehand and include it in your test requests. Some tools let you parameterize this. With Zoyla, you set up your headers once and they apply to every request in the test.
 
@@ -30,7 +30,7 @@ For token-based auth, you'll typically generate a valid token beforehand and inc
 
 A GET request to `/users` is simple. But what about POST requests that create data? PUT requests that update it? These need realistic payloads. If you're testing with the same tiny JSON body every time, you're not seeing how your system handles varied input sizes.
 
-Think about what real traffic looks like. If users typically send 2KB payloads but occasionally send 50KB, your test should reflect that distribution.
+Think about what real traffic looks like. If users typically send 2KB payloads but occasionally send 50KB, your test should reflect that distribution. The [realistic load patterns](/resources/realistic-load-patterns) guide covers this in more detail.
 
 ## The metrics that matter
 
@@ -54,7 +54,7 @@ Pick your most critical endpoint. Usually that's authentication or your main dat
 
 Zoyla makes this straightforward. Configure your endpoint, set your parameters, run the test. Results appear in seconds, all visualized so you can spot patterns immediately.
 
-That's API load testing. Same principles as any load testing, just with attention to the details that matter for APIs specifically.
+That's API load testing. Same principles as any load testing, just with attention to the details that matter for APIs specifically. For a more rigorous approach, check out [how to benchmark your REST API properly](/resources/benchmarking-rest-apis).
 
 ---
 

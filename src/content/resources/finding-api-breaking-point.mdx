@@ -8,11 +8,11 @@ tags: ["stress-testing", "api", "capacity"]
 
 Every system has a breaking point. The question is whether you find it in testing or your users find it in production.
 
-Stress testing is about intentionally pushing past normal limits to discover where things fail. Not if. Where.
+Stress testing is about intentionally pushing past normal limits to discover where things fail. Not if. Where. The [stress testing vs load testing](/resources/stress-testing-vs-load-testing) comparison explains when each approach makes sense.
 
 ## The process
 
-Start with a baseline. Run a load test at your expected traffic level. Document the results — throughput, latency, error rate. This is your "normal."
+Start with a baseline. Run a load test at your expected traffic level. Document the results — throughput, latency, error rate. This is your "normal." The [performance baselines](/resources/performance-baselines) guide covers how to establish and track these.
 
 Then increase load. Double the concurrency. Run again. Compare to baseline. Still looking good? Double again.
 
@@ -44,7 +44,7 @@ Zoyla makes this iteration fast. Adjust concurrency, run again, see results imme
 
 The breaking point tells you where. Figuring out why requires more investigation.
 
-Check your server metrics during the test. CPU maxed out? That's your limit. Memory exhausted? Different problem. Database connections at maximum? There's your bottleneck.
+Check your server metrics during the test. CPU maxed out? That's your limit. Memory exhausted? Different problem. Database connections at maximum? There's your bottleneck. The [monitoring during load tests](/resources/monitoring-during-load-tests) guide covers what to watch.
 
 Common culprits:
 
@@ -58,7 +58,7 @@ Knowing which resource fails first tells you where to focus optimization or scal
 
 ## What to do with this information
 
-**Set capacity limits** — if you break at 500 RPS, don't promise 600. Build in margin.
+**Set capacity limits** — if you break at 500 RPS, don't promise 600. Build in margin. The [capacity planning basics](/resources/capacity-planning-basics) guide shows how to translate these numbers into infrastructure decisions.
 
 **Plan scaling triggers** — know when to add capacity before you hit the wall.
 

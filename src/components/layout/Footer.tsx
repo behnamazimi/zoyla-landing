@@ -3,18 +3,18 @@
 import Link from "next/link";
 import { TWITTER_URL, TWITTER_HANDLE } from "@/lib/constants";
 import { AnimatedLogo } from "@/components/ui/AnimatedLogo";
-import posthog from "posthog-js";
+import { track } from "@/lib/tracking";
 
 export function Footer() {
   const handleTwitterClick = () => {
-    posthog.capture("twitter_link_clicked", {
+    track("twitter_link_clicked", {
       location: "footer",
       twitter_handle: TWITTER_HANDLE,
     });
   };
 
   const handleResourcesClick = () => {
-    posthog.capture("resources_link_clicked", {
+    track("resources_link_clicked", {
       location: "footer",
     });
   };
@@ -32,7 +32,7 @@ export function Footer() {
             zoyla
           </span>
           <p
-            className="text-sm text-[#6b6b6b]"
+            className="text-sm text-(--foreground-muted)"
             style={{ fontFamily: "var(--font-body)" }}
           >
             it pecks your HTTP endpoints
@@ -41,7 +41,7 @@ export function Footer() {
       </div>
 
       <div
-        className="flex flex-wrap items-center justify-center gap-4 text-xs text-[#6b6b6b]"
+        className="flex flex-wrap items-center justify-center gap-4 text-xs text-(--muted)"
         style={{ fontFamily: "var(--font-mono)" }}
       >
         <span>© {new Date().getFullYear()} Zoyla</span>

@@ -1,4 +1,4 @@
-export const SITE_URL = "https://zoyla.app";
+export const SITE_URL = "https://www.zoyla.app";
 export const GITHUB_REPO = "behnamazimi/zoyla";
 export const GITHUB_URL = `https://github.com/${GITHUB_REPO}`;
 export const GITHUB_RELEASES_URL = `${GITHUB_URL}/releases`;

@@ -4,11 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { DownloadButton } from "@/components/ui/DownloadButton";
 import { GitHubStars } from "@/components/ui/GitHubStars";
-import posthog from "posthog-js";
+import { track } from "@/lib/tracking";
 
 export function Header() {
   const handleLogoClick = () => {
-    posthog.capture("logo_clicked", {
+    track("logo_clicked", {
       location: "header",
     });
   };

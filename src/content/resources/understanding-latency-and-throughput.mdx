@@ -22,7 +22,7 @@ This is why percentiles exist. The p50 (median) tells you what half your users e
 
 ## Throughput is about volume
 
-While latency asks "how long," throughput asks "how many." Requests per second. Transactions per minute. Whatever unit makes sense for your system.
+While latency asks "how long," throughput asks "how many." [Requests per second](/resources/requests-per-second-explained). Transactions per minute. Whatever unit makes sense for your system.
 
 High throughput means your system can handle lots of work. But here's where people get confused — high throughput doesn't automatically mean low latency. You can have a system that processes 10,000 requests per second where each request takes 500ms. That's high throughput, high latency. Users are waiting half a second for responses, but you're handling a ton of them.
 
@@ -42,7 +42,7 @@ There's a formula for this, actually. Little's Law. It says:
 Concurrent Requests = Throughput × Latency
 ```
 
-Simple math, profound implications. If your latency is 100ms and you want 1000 requests per second, you need 100 concurrent connections. If latency doubles to 200ms, you now need 200 concurrent connections to maintain the same throughput. And if your system can only handle 150 connections? Your throughput drops. You can't hit 1000 RPS anymore.
+Simple math, profound implications. If your latency is 100ms and you want 1000 requests per second, you need 100 [concurrent connections](/resources/concurrent-users-explained). If latency doubles to 200ms, you now need 200 concurrent connections to maintain the same throughput. And if your system can only handle 150 connections? Your throughput drops. You can't hit 1000 RPS anymore.
 
 ## A practical example
 
@@ -56,7 +56,7 @@ Using Little's Law, at average latency you need 50 concurrent connections (1000 
 
 Now imagine traffic doubles. Your server gets busier. Latency increases — let's say average goes to 100ms. To maintain 2000 RPS, you'd need 200 concurrent connections. But if latency keeps climbing because the server is stressed, you need even more connections. At some point, you hit limits. Connection pools max out. Threads get exhausted. The whole thing starts falling apart.
 
-This is why capacity planning matters. You can't just look at throughput in isolation.
+This is why [capacity planning](/resources/capacity-planning-basics) matters. You can't just look at throughput in isolation.
 
 ## Making things faster
 

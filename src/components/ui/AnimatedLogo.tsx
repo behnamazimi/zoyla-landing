@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 
 interface AnimatedLogoProps {
   width?: number;
@@ -16,46 +16,91 @@ export function AnimatedLogo({
   animate = true,
 }: AnimatedLogoProps) {
   const [isPecking, setIsPecking] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const rafRef = useRef<number | null>(null);
+  const lastTimeRef = useRef<number>(0);
+  const stateRef = useRef({
+    peckCount: 0,
+    maxPecks: 10,
+    phase: "peck-down" as "peck-down" | "peck-up" | "pause" | "sequence-pause",
+    pauseStart: 0,
+  });
+
+  const animationLoop = useCallback((timestamp: number) => {
+    if (!lastTimeRef.current) {
+      lastTimeRef.current = timestamp;
+    }
+
+    const elapsed = timestamp - lastTimeRef.current;
+    const state = stateRef.current;
+
+    switch (state.phase) {
+      case "peck-down":
+        // Peck down for 50ms
+        if (elapsed >= 50) {
+          setIsPecking(false);
+          state.phase = "peck-up";
+          lastTimeRef.current = timestamp;
+        }
+        break;
+
+      case "peck-up":
+        // Peck up (wait) for 60ms before next peck
+        if (elapsed >= 60) {
+          state.peckCount++;
+          if (state.peckCount >= state.maxPecks) {
+            // Done with sequence, start pause
+            state.phase = "pause";
+            state.pauseStart = timestamp;
+          } else {
+            // Start next peck
+            setIsPecking(true);
+            state.phase = "peck-down";
+          }
+          lastTimeRef.current = timestamp;
+        }
+        break;
+
+      case "pause":
+        // Short pause (300ms) after sequence
+        if (elapsed >= 300) {
+          state.phase = "sequence-pause";
+          lastTimeRef.current = timestamp;
+        }
+        break;
+
+      case "sequence-pause":
+        // Longer pause (400ms) before next sequence
+        if (elapsed >= 400) {
+          // Reset for new sequence
+          state.peckCount = 0;
+          state.phase = "peck-down";
+          setIsPecking(true);
+          lastTimeRef.current = timestamp;
+        }
+        break;
+    }
+
+    rafRef.current = requestAnimationFrame(animationLoop);
+  }, []);
 
   useEffect(() => {
     if (!animate) return;
 
-    // Create a pecking rhythm: rapid pecks, short pause, repeat
-    const peckSequence = () => {
-      let peckCount = 0;
-      const maxPecks = 10; // More pecks per sequence
-
-      const singlePeck = () => {
-        if (peckCount >= maxPecks) {
-          // Short pause before next sequence
-          setTimeout(() => {
-            setTimeout(peckSequence, 400); // Shorter pause between sequences
-          }, 300);
-          return;
-        }
-
-        setIsPecking(true);
-
-        timeoutRef.current = setTimeout(() => {
-          setIsPecking(false);
-          peckCount++;
-          // Faster pecks
-          timeoutRef.current = setTimeout(singlePeck, 60);
-        }, 50); // Shorter peck duration
-      };
-
-      singlePeck();
-    };
-
-    // Start after shorter initial delay
-    const timeout = setTimeout(peckSequence, 300);
+    // Start after initial delay
+    const startTimeout = setTimeout(() => {
+      setIsPecking(true);
+      stateRef.current.phase = "peck-down";
+      lastTimeRef.current = 0;
+      rafRef.current = requestAnimationFrame(animationLoop);
+    }, 300);
 
     return () => {
-      clearTimeout(timeout);
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      clearTimeout(startTimeout);
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
     };
-  }, [animate]);
+  }, [animate, animationLoop]);
 
   return (
     <svg
@@ -154,56 +199,105 @@ export function AnimatedLogo({
       <g
         style={{
           opacity: isPecking ? 1 : 0,
-          transition: "opacity 0.02s ease-out",
+          transition: "opacity 0.03s ease-out",
         }}
       >
-        {/* Spark particles flying off from beak impact */}
+        {/* Spark particles flying off from beak impact - spread wider */}
         <circle
           cx="268"
           cy="45"
-          r="3"
+          r="8"
           fill="#FFE566"
           style={{
             transform: isPecking
-              ? "translate(14px, -8px) scale(0.4)"
+              ? "translate(35px, -20px) scale(0.3)"
               : "translate(0, 0) scale(1)",
-            transition: "transform 0.04s ease-out",
+            transition: "transform 0.06s ease-out",
           }}
         />
         <circle
           cx="272"
           cy="55"
-          r="2.5"
+          r="7"
           fill="#F8DF22"
           style={{
             transform: isPecking
-              ? "translate(18px, 3px) scale(0.2)"
-              : "translate(0, 0) scale(1)",
-            transition: "transform 0.035s ease-out",
-          }}
-        />
-        <circle
-          cx="265"
-          cy="62"
-          r="2"
-          fill="#FFE566"
-          style={{
-            transform: isPecking
-              ? "translate(12px, 7px) scale(0.3)"
+              ? "translate(40px, 8px) scale(0.2)"
               : "translate(0, 0) scale(1)",
             transition: "transform 0.05s ease-out",
           }}
         />
         <circle
+          cx="265"
+          cy="62"
+          r="6"
+          fill="#FFE566"
+          style={{
+            transform: isPecking
+              ? "translate(28px, 18px) scale(0.25)"
+              : "translate(0, 0) scale(1)",
+            transition: "transform 0.07s ease-out",
+          }}
+        />
+        <circle
           cx="270"
           cy="48"
+          r="3"
+          fill="#FFD700"
+          style={{
+            transform: isPecking
+              ? "translate(38px, -12px) scale(0.2)"
+              : "translate(0, 0) scale(1)",
+            transition: "transform 0.045s ease-out",
+          }}
+        />
+        {/* Additional sparks for more dramatic effect */}
+        <circle
+          cx="275"
+          cy="52"
+          r="2.5"
+          fill="#FFCC00"
+          style={{
+            transform: isPecking
+              ? "translate(45px, -5px) scale(0.15)"
+              : "translate(0, 0) scale(1)",
+            transition: "transform 0.055s ease-out",
+          }}
+        />
+        <circle
+          cx="263"
+          cy="58"
+          r="2"
+          fill="#FFE566"
+          style={{
+            transform: isPecking
+              ? "translate(22px, 25px) scale(0.2)"
+              : "translate(0, 0) scale(1)",
+            transition: "transform 0.065s ease-out",
+          }}
+        />
+        <circle
+          cx="278"
+          cy="42"
+          r="2.5"
+          fill="#F8DF22"
+          style={{
+            transform: isPecking
+              ? "translate(32px, -28px) scale(0.15)"
+              : "translate(0, 0) scale(1)",
+            transition: "transform 0.04s ease-out",
+          }}
+        />
+        <circle
+          cx="260"
+          cy="50"
           r="2"
           fill="#FFD700"
           style={{
             transform: isPecking
-              ? "translate(16px, -4px) scale(0.25)"
+              ? "translate(18px, -15px) scale(0.25)"
               : "translate(0, 0) scale(1)",
-            transition: "transform 0.03s ease-out",
+            transition: "transform 0.05s ease-out",
           }}
         />
       </g>

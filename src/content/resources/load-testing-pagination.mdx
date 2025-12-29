@@ -1,0 +1,67 @@
+---
+title: "Load Testing Paginated Endpoints"
+description: "How to properly load test paginated APIs — offset vs cursor pagination, page size impact, and the performance patterns you need to watch for."
+date: "2025-12-24"
+author: "Behnam Azimi"
+tags: ["pagination", "api", "database"]
+---
+
+Pagination seems simple. Return 20 items per page, let users request page 2, page 3, and so on. But under load, pagination can become a serious performance problem. Especially if you're using the wrong approach. The [API load testing basics](/resources/api-load-testing-basics) cover general setup — this guide focuses on pagination-specific issues.
+
+## Offset pagination and its problems
+
+Offset pagination is the most common approach. `?page=1&limit=20` returns the first 20 items. `?page=2&limit=20` skips 20 and returns the next 20.
+
+Simple to implement. And it has a nasty performance problem.
+
+To get page 100, the database has to skip 1980 rows before returning 20. That skip isn't free. At page 1000, you're skipping 19,980 rows. Response time grows linearly with page number.
+
+Load test this. Request page 1, then page 100, then page 1000. Watch response times climb.
+
+## Cursor pagination is faster
+
+Cursor pagination uses a marker instead of an offset. "Give me 20 items after this ID" instead of "skip 2000 and give me 20."
+
+The database doesn't skip anything. It seeks directly to the cursor position and reads forward. Page 1 and page 1000 have the same performance.
+
+The tradeoff is you can't jump to arbitrary pages. You can only go forward from a cursor. For many use cases, that's fine. Users scroll through results sequentially anyway.
+
+## Page size matters
+
+Bigger pages mean fewer requests but larger responses. Smaller pages mean more requests but lighter responses.
+
+Test different page sizes. There's usually a sweet spot. Too small and request overhead dominates. Too large and serialization time dominates.
+
+For most APIs, page sizes between 20 and 100 work well. The [response size guide](/resources/api-response-size-performance) covers how payload size affects performance.
+
+## Testing realistic patterns
+
+Real users don't request random pages. They start at page 1 and maybe scroll through a few more. Most never reach page 100.
+
+Your load test should reflect this. Maybe 80% of requests are for page 1, 15% for pages 2-5, and 5% for deeper pages. But do test those deep pages specifically — even if rare, they shouldn't bring your server down.
+
+## The counting problem
+
+Many paginated APIs return total count. "Page 1 of 500, showing 20 of 10,000 items."
+
+That count requires a separate query. Counting large tables is expensive. Under load, the count query might take longer than fetching the actual data.
+
+Test with and without counts. If counts add significant latency, consider making them optional or caching them.
+
+## Sorting and filtering
+
+Pagination gets more complex when combined with sorting and filtering. Different sort orders have different performance — sorting by indexed columns is fast, sorting by non-indexed columns is slow.
+
+Test your common filter and sort combinations. The popular ones should be fast. For database-related issues, see the [database bottlenecks guide](/resources/database-bottlenecks).
+
+## Practical recommendations
+
+Use cursor pagination if you can. It scales better.
+
+If you must use offset pagination, consider limiting maximum page depth. "Pages beyond 100 are not available" is better than 30-second response times.
+
+Test your actual pagination patterns under load. The theory matters less than what your specific implementation does. The [load testing GraphQL](/resources/load-testing-graphql) guide covers pagination in GraphQL APIs specifically.
+
+---
+
+Ready to test your pagination? [Download Zoyla](/) and see how your API handles page after page.

@@ -16,7 +16,7 @@ This is the biggest one. Your test database has 1000 users. Production has 10 mi
 
 Database performance doesn't scale linearly. Indexes that work fine with small datasets become bottlenecks with large ones. Query plans change. Memory usage changes. Disk I/O patterns change.
 
-If you want realistic results, you need realistic data volume. Either use a copy of production data (sanitized if needed) or generate synthetic data at production scale.
+If you want realistic results, you need realistic data volume. Either use a copy of production data (sanitized if needed) or generate synthetic data at production scale. The [database bottlenecks](/resources/database-bottlenecks) guide covers what to watch for.
 
 ## The hardware gap
 
@@ -46,7 +46,7 @@ Whatever you choose, know what you're testing. If you mock your database, you're
 
 Caches in test environments often behave differently than production. Maybe they're smaller. Maybe they're empty at the start of each test. Maybe they're on the same machine instead of a separate server.
 
-Consider running tests with cold caches to see worst-case performance. Then run with warm caches to see typical performance. Both numbers are useful.
+Consider running tests with cold caches to see worst-case performance. Then run with warm caches to see typical performance. Both numbers are useful. The [realistic load patterns](/resources/realistic-load-patterns) guide covers how to design tests that reflect actual usage.
 
 ## A practical checklist
 
@@ -66,4 +66,4 @@ For early development, testing against your local machine is fine. You're lookin
 
 As you get closer to launch, environment fidelity matters more. The [when to load test](/resources/when-to-load-test) guide covers timing in more detail.
 
-Match the environment to the stakes. Quick development checks don't need production mirrors. Pre-launch validation does.
+Match the environment to the stakes. Quick development checks don't need production mirrors. Pre-launch validation does. The [testing before launch](/resources/testing-before-launch) checklist covers what to verify before major releases.

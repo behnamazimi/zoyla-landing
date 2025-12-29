@@ -78,7 +78,7 @@ export default function HistoryExportPage() {
           Never lose a result
         </h1>
         <p
-          className="mx-auto mb-10 max-w-2xl text-lg text-[#6b6b6b] sm:text-xl"
+          className="mx-auto mb-10 max-w-2xl text-lg text-(--foreground-muted) sm:text-xl"
           style={{ fontFamily: "var(--font-body)" }}
         >
           Every test you run is saved. Compare results over time. Export to JSON
@@ -117,7 +117,7 @@ export default function HistoryExportPage() {
                 {feature.title}
               </h3>
               <p
-                className="text-sm leading-relaxed text-[#6b6b6b]"
+                className="text-sm leading-relaxed text-(--foreground-muted)"
                 style={{ fontFamily: "var(--font-body)" }}
               >
                 {feature.description}
@@ -148,7 +148,7 @@ export default function HistoryExportPage() {
                 {item.format}
               </div>
               <p
-                className="text-sm text-[#6b6b6b]"
+                className="text-sm text-(--foreground-muted)"
                 style={{ fontFamily: "var(--font-body)" }}
               >
                 {item.useCase}
@@ -179,7 +179,7 @@ export default function HistoryExportPage() {
                 Track performance over time
               </h3>
               <p
-                className="text-sm text-[#6b6b6b]"
+                className="text-sm text-(--foreground-muted)"
                 style={{ fontFamily: "var(--font-body)" }}
               >
                 Run the same test weekly. Watch for trends. Catch regressions
@@ -199,7 +199,7 @@ export default function HistoryExportPage() {
                 Validate optimizations
               </h3>
               <p
-                className="text-sm text-[#6b6b6b]"
+                className="text-sm text-(--foreground-muted)"
                 style={{ fontFamily: "var(--font-body)" }}
               >
                 Test before. Optimize. Test after. Compare the numbers. Prove it
@@ -219,7 +219,7 @@ export default function HistoryExportPage() {
                 Share with your team
               </h3>
               <p
-                className="text-sm text-[#6b6b6b]"
+                className="text-sm text-(--foreground-muted)"
                 style={{ fontFamily: "var(--font-body)" }}
               >
                 Export to CSV, drop in a report. Everyone can see the numbers
@@ -240,7 +240,7 @@ export default function HistoryExportPage() {
             Start building your history
           </h2>
           <p
-            className="mb-6 text-[#6b6b6b]"
+            className="mb-6 text-(--foreground-muted)"
             style={{ fontFamily: "var(--font-body)" }}
           >
             Download Zoyla and never lose a test result again.
@@ -252,7 +252,7 @@ export default function HistoryExportPage() {
       {/* Related links */}
       <section className="relative z-10 mx-auto max-w-3xl px-6 pb-24 sm:px-8">
         <h3
-          className="mb-4 text-sm font-medium tracking-wider text-[#6b6b6b] uppercase"
+          className="mb-4 text-sm font-medium tracking-wider text-(--muted) uppercase"
           style={{ fontFamily: "var(--font-mono)" }}
         >
           Related resources

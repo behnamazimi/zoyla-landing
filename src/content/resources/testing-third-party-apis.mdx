@@ -74,7 +74,7 @@ External services add latency. A 200ms API call means 200ms added to your respon
 
 Under load, this matters. If your system makes blocking calls to slow services, your capacity is limited by how fast those services respond.
 
-Test with realistic external latency. If your payment processor takes 500ms, don't mock it with 1ms responses. You'll get false confidence.
+Test with realistic external latency. If your payment processor takes 500ms, don't mock it with 1ms responses. You'll get false confidence. The [timeout configuration testing](/resources/timeout-configuration-testing) guide covers setting appropriate timeouts for external calls.
 
 For more on the latency side, see [throughput vs latency](/resources/throughput-vs-latency).
 
@@ -92,4 +92,4 @@ Load testing can verify this behavior works. Intentionally hit rate limits and w
 4. Understand the limits and costs of your dependencies
 5. Design your system to handle dependency failures gracefully
 
-Your system's performance includes your dependencies. Test accordingly.
+Your system's performance includes your dependencies. Test accordingly. The [load testing webhooks](/resources/load-testing-webhooks) guide covers the receiving side of third-party integrations. For microservices with many dependencies, see [load testing microservices](/resources/load-testing-microservices).

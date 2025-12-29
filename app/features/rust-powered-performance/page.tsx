@@ -82,7 +82,7 @@ export default function RustPoweredPage() {
           Built for speed
         </h1>
         <p
-          className="mx-auto mb-10 max-w-2xl text-lg text-[#6b6b6b] sm:text-xl"
+          className="mx-auto mb-10 max-w-2xl text-lg text-(--foreground-muted) sm:text-xl"
           style={{ fontFamily: "var(--font-body)" }}
         >
           Rust backend. Tauri framework. Native performance. Your load testing
@@ -121,7 +121,7 @@ export default function RustPoweredPage() {
                 {benefit.title}
               </h3>
               <p
-                className="text-sm leading-relaxed text-[#6b6b6b]"
+                className="text-sm leading-relaxed text-(--foreground-muted)"
                 style={{ fontFamily: "var(--font-body)" }}
               >
                 {benefit.description}
@@ -152,7 +152,7 @@ export default function RustPoweredPage() {
                 {tech.name}
               </div>
               <p
-                className="text-sm text-[#6b6b6b]"
+                className="text-sm text-(--foreground-muted)"
                 style={{ fontFamily: "var(--font-body)" }}
               >
                 {tech.description}
@@ -172,7 +172,7 @@ export default function RustPoweredPage() {
             Why performance matters for load testing
           </h2>
           <p
-            className="mb-4 text-[#6b6b6b]"
+            className="mb-4 text-(--foreground-muted)"
             style={{ fontFamily: "var(--font-body)" }}
           >
             If your testing tool is slow, it becomes the bottleneck. You end up
@@ -180,7 +180,7 @@ export default function RustPoweredPage() {
             performance.
           </p>
           <p
-            className="text-[#6b6b6b]"
+            className="text-(--foreground-muted)"
             style={{ fontFamily: "var(--font-body)" }}
           >
             Zoyla&apos;s Rust backend stays out of the way. Accurate timing,
@@ -199,7 +199,7 @@ export default function RustPoweredPage() {
           Experience the speed
         </h2>
         <p
-          className="mb-6 text-[#6b6b6b]"
+          className="mb-6 text-(--foreground-muted)"
           style={{ fontFamily: "var(--font-body)" }}
         >
           Download Zoyla and see how fast load testing can be.
@@ -210,7 +210,7 @@ export default function RustPoweredPage() {
       {/* Related links */}
       <section className="relative z-10 mx-auto max-w-3xl px-6 pb-24 sm:px-8">
         <h3
-          className="mb-4 text-sm font-medium tracking-wider text-[#6b6b6b] uppercase"
+          className="mb-4 text-sm font-medium tracking-wider text-(--muted) uppercase"
           style={{ fontFamily: "var(--font-mono)" }}
         >
           Related resources

@@ -27,7 +27,7 @@ export function ArticleLayout({
       {/* Back navigation */}
       <Link
         href="/resources"
-        className="group mb-10 inline-flex items-center gap-2 text-sm text-[#6b6b6b] transition-colors hover:text-[#e8e8e8]"
+        className="group mb-10 inline-flex items-center gap-2 text-sm text-(--muted) transition-colors hover:text-[#e8e8e8]"
         style={{ fontFamily: "var(--font-mono)" }}
       >
         <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
@@ -42,7 +42,7 @@ export function ArticleLayout({
             {meta.tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-full bg-[#1a1a1a] px-3 py-1 text-xs text-[var(--accent)]"
+                className="rounded-full bg-[#1a1a1a] px-3 py-1 text-xs text-(--accent)"
                 style={{ fontFamily: "var(--font-mono)" }}
               >
                 {tag}
@@ -69,7 +69,7 @@ export function ArticleLayout({
 
         {/* Meta info */}
         <div
-          className="flex flex-wrap items-center gap-4 text-sm text-[#6b6b6b]"
+          className="flex flex-wrap items-center gap-4 text-sm text-(--muted)"
           style={{ fontFamily: "var(--font-mono)" }}
         >
           <span className="flex items-center gap-1.5">
@@ -96,7 +96,7 @@ export function ArticleLayout({
       <footer className="mt-16 border-t border-[#252525] pt-8">
         <Link
           href="/resources"
-          className="group inline-flex items-center gap-2 text-sm text-[#6b6b6b] transition-colors hover:text-[#e8e8e8]"
+          className="group inline-flex items-center gap-2 text-sm text-(--muted) transition-colors hover:text-[#e8e8e8]"
           style={{ fontFamily: "var(--font-mono)" }}
         >
           <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />

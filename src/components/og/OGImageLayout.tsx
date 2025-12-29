@@ -173,7 +173,7 @@ export const ogStyles = {
   },
   subtitle: {
     fontSize: 26,
-    color: "#6b6b6b",
+    color: "#a0a0a0", // --foreground-muted for better contrast
     lineHeight: 1.5,
     maxWidth: "80%",
   },

@@ -14,7 +14,7 @@ Databases are the bottleneck more often than anything else. They're doing the he
 
 ## How to spot it
 
-During your load test, watch database metrics alongside application metrics.
+During your load test, watch database metrics alongside application metrics. The [monitoring during load tests](/resources/monitoring-during-load-tests) guide covers what to look for.
 
 **Connection count** — if you're hitting the maximum connections, requests queue waiting for a connection. Latency spikes.
 
@@ -32,7 +32,7 @@ If your app servers look healthy but response times are bad, the database is the
 
 **N+1 queries** — you fetch a list, then query for each item. 100 items means 101 queries. Under load, this multiplies.
 
-**Connection pool exhaustion** — more requests than connections. Requests wait. Latency explodes.
+**[Connection pool exhaustion](/resources/connection-pooling-performance)** — more requests than connections. Requests wait. Latency explodes.
 
 **Slow queries** — that one query that takes 2 seconds. At 10 RPS, it's consuming 20 database-seconds per second. Not sustainable.
 

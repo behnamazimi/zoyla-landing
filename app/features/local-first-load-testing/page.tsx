@@ -67,7 +67,7 @@ export default function LocalFirstPage() {
           Your data stays with you
         </h1>
         <p
-          className="mx-auto mb-10 max-w-2xl text-lg text-[#6b6b6b] sm:text-xl"
+          className="mx-auto mb-10 max-w-2xl text-lg text-(--foreground-muted) sm:text-xl"
           style={{ fontFamily: "var(--font-body)" }}
         >
           No cloud. No account. No telemetry. Everything runs locally on your
@@ -107,7 +107,7 @@ export default function LocalFirstPage() {
                 {benefit.title}
               </h3>
               <p
-                className="text-sm leading-relaxed text-[#6b6b6b]"
+                className="text-sm leading-relaxed text-(--foreground-muted)"
                 style={{ fontFamily: "var(--font-body)" }}
               >
                 {benefit.description}
@@ -138,7 +138,7 @@ export default function LocalFirstPage() {
                 Requests go directly to your target
               </h3>
               <p
-                className="text-sm text-[#6b6b6b]"
+                className="text-sm text-(--foreground-muted)"
                 style={{ fontFamily: "var(--font-body)" }}
               >
                 Your machine sends HTTP requests straight to your endpoint. No
@@ -158,7 +158,7 @@ export default function LocalFirstPage() {
                 Results calculated locally
               </h3>
               <p
-                className="text-sm text-[#6b6b6b]"
+                className="text-sm text-(--foreground-muted)"
                 style={{ fontFamily: "var(--font-body)" }}
               >
                 All metrics — latency, throughput, errors — computed on your
@@ -178,7 +178,7 @@ export default function LocalFirstPage() {
                 Data stored on your disk
               </h3>
               <p
-                className="text-sm text-[#6b6b6b]"
+                className="text-sm text-(--foreground-muted)"
                 style={{ fontFamily: "var(--font-body)" }}
               >
                 Test history saved locally. Export when you want. Delete when
@@ -199,7 +199,7 @@ export default function LocalFirstPage() {
             Ready for private load testing?
           </h2>
           <p
-            className="mb-6 text-[#6b6b6b]"
+            className="mb-6 text-(--foreground-muted)"
             style={{ fontFamily: "var(--font-body)" }}
           >
             Download Zoyla and keep your data on your machine.
@@ -211,7 +211,7 @@ export default function LocalFirstPage() {
       {/* Related links */}
       <section className="relative z-10 mx-auto max-w-3xl px-6 pb-24 sm:px-8">
         <h3
-          className="mb-4 text-sm font-medium tracking-wider text-[#6b6b6b] uppercase"
+          className="mb-4 text-sm font-medium tracking-wider text-(--muted) uppercase"
           style={{ fontFamily: "var(--font-mono)" }}
         >
           Related resources

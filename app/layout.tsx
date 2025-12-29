@@ -39,11 +39,14 @@ export const metadata: Metadata = {
     "benchmarking",
   ],
   authors: [{ name: "Behnam Azimi" }],
+  alternates: {
+    canonical: SITE_URL,
+  },
   openGraph: {
     title: "Zoyla – HTTP Load Testing Simple and Fast",
     description:
       "Fast, lightweight HTTP load testing desktop app built with Rust for quick, reliable performance insights.",
-    url: "https://github.com/behnamazimi/zoyla",
+    url: SITE_URL,
     siteName: "Zoyla",
     type: "website",
   },

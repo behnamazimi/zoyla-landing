@@ -1,5 +1,5 @@
 import { Header, Footer } from "@/components/layout";
-import { Hero, Features } from "@/components/sections";
+import { Hero, Features, DemoVideo } from "@/components/sections";
 import { HeroAnimation } from "@/components/effects";
 
 export default function Home() {
@@ -10,6 +10,7 @@ export default function Home() {
       <Header />
       <Hero />
       <Features />
+      <DemoVideo />
       <Footer />
     </>
   );

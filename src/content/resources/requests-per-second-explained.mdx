@@ -12,7 +12,7 @@ Requests per second. RPS. Throughput. Whatever you call it, this number tells yo
 
 RPS counts how many HTTP requests your server processes in one second. Simple concept. But the implications run deep.
 
-If your system handles 1000 RPS and each user makes one request per second, you can support 1000 concurrent users. If users make 10 requests per second each, you can support 100 users.
+If your system handles 1000 RPS and each user makes one request per second, you can support 1000 [concurrent users](/resources/concurrent-users-explained). If users make 10 requests per second each, you can support 100 users.
 
 Real traffic is messier than that, of course. But RPS gives you a baseline for thinking about capacity.
 
@@ -58,7 +58,7 @@ Say you're expecting 10,000 users at peak, each making 2 requests per second. Th
 
 Your current setup handles 5,000 RPS. You need to 4x your capacity. Maybe that means more servers. Maybe that means optimizing slow endpoints. Maybe that means caching.
 
-Without the RPS number, you're guessing. With it, you can plan.
+Without the RPS number, you're guessing. With it, you can plan. The [capacity planning basics](/resources/capacity-planning-basics) guide shows how to turn these numbers into infrastructure decisions.
 
 ## Common mistakes
 

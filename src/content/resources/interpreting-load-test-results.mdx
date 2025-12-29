@@ -44,7 +44,7 @@ No degradation over time. Metrics at the end of the test should look like metric
 
 **Errors increasing over time** — resource exhaustion. Something is leaking or filling up.
 
-**Throughput lower than expected** — bottleneck somewhere. CPU, database, external service, something is limiting you.
+**Throughput lower than expected** — bottleneck somewhere. CPU, database, external service, something is limiting you. The [database bottlenecks](/resources/database-bottlenecks) guide covers one of the most common culprits.
 
 **Latency increasing with duration** — queue buildup. You're receiving requests faster than you can process them.
 
@@ -74,9 +74,9 @@ For more on environment setup, see [setting up a proper test environment](/resou
 
 **Throughput is the problem** — find the bottleneck. CPU? Database? External calls? Then optimize or scale.
 
-**Latency is the problem** — look at the distribution. If p99 is bad, find the outliers. If everything is slow, find the slow path.
+**Latency is the problem** — look at the distribution. If p99 is bad, find the outliers. If everything is slow, find the slow path. The [throughput vs latency](/resources/throughput-vs-latency) tradeoff explains why these metrics are connected.
 
-**Errors are the problem** — check the status codes. 5xx means server issues. Timeouts mean overload or stuck requests. 4xx might mean test configuration issues.
+**Errors are the problem** — check the status codes. 5xx means server issues. Timeouts mean overload or stuck requests. 4xx might mean test configuration issues. The [error rates under load](/resources/error-rates-under-load) guide helps you decode what different error patterns mean.
 
 ## Reading Zoyla results
 

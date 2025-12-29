@@ -17,7 +17,7 @@ export function BrewInstall() {
       className="animate-fade-in-up mt-4 delay-600"
       style={{ fontFamily: "var(--font-mono)" }}
     >
-      <p className="mb-2 text-xs text-[#6b6b6b]">or install via Homebrew</p>
+      <p className="mb-2 text-xs text-(--muted)">or install via Homebrew</p>
       <CopyButton text={BREW_COMMAND} />
     </div>
   );

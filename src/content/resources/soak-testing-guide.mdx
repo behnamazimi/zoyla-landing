@@ -1,0 +1,57 @@
+---
+title: "Soak Testing: Finding Bugs That Only Appear Over Time"
+description: "How to run soak tests that reveal memory leaks, connection exhaustion, and other problems that only surface after hours of operation."
+date: "2025-12-28"
+author: "Behnam Azimi"
+tags: ["soak-testing", "endurance", "memory-leaks"]
+---
+
+Some bugs hide. They don't show up in a 5-minute load test. They wait until your application has been running for hours, days, maybe weeks. Then they strike.
+
+Soak testing is how you find these time bombs before production.
+
+## What it is
+
+A soak test runs for an extended period at normal load. Not stress testing where you push to the breaking point. Just sustained, realistic traffic over hours.
+
+You're looking for slow leaks. Memory that gets allocated but never freed. Database connections that don't return to the pool. File handles that stay open. Caches that grow without bounds. The kind of problems that accumulate gradually until something fails.
+
+## Why short tests miss these
+
+A 10-minute load test might leak 10MB of memory. Your server has 16GB. No problem detected.
+
+Run that same test for 24 hours and you've leaked 14GB. Now your server is swapping, garbage collection is thrashing, and response times have gone through the roof. The leak was always there. The short test just didn't run long enough to notice.
+
+## How long
+
+A few hours catches fast leaks. Overnight (8-12 hours) catches slower ones and gives you confidence for typical production runs. 24 hours or more simulates a full production cycle.
+
+Many teams run soak tests overnight and review results in the morning. That's usually enough.
+
+## What to watch
+
+During a soak test, you're watching for drift. Metrics that should stay stable but don't.
+
+Memory usage should be roughly constant. If it grows steadily, you have a leak. Connection counts should stay within pool limits. Response times should remain consistent — if p95 is 100ms at hour 1 and 500ms at hour 8, something is degrading. Error rates should stay low. Errors appearing after hours of operation often indicate resource exhaustion.
+
+## Common findings
+
+Memory leaks from growing collections, event listener accumulation, or caching without eviction. [Connection leaks](/resources/connection-pooling-performance) when database or HTTP connections aren't properly closed. File handle leaks. Log files filling disks. Cache bloat when caches grow without size limits.
+
+For connection issues specifically, the [database bottlenecks](/resources/database-bottlenecks) guide goes deeper.
+
+## Running one
+
+Set up load that represents normal production traffic. Start the test and let it run. Check in periodically but don't obsess over real-time metrics. Record metrics at regular intervals so you can graph trends later.
+
+When the test ends, look at the trends. Flat lines are good. Upward slopes are concerning. The [monitoring during load tests](/resources/monitoring-during-load-tests) guide covers what to watch.
+
+## When to bother
+
+Soak tests are expensive. They tie up environments for hours. Not every change needs one.
+
+Save them for before major releases, after significant architectural changes, or when you suspect time-based issues. [Stress testing](/resources/stress-testing-vs-load-testing) finds your breaking point under high load. Soak testing finds what breaks over time regardless of load level. You need both.
+
+---
+
+Want to run extended tests? [Download Zoyla](/) and let it hammer your API while you do other things.

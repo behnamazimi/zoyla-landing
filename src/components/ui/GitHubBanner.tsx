@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { AnimatedLogo } from "./AnimatedLogo";
 import { GITHUB_URL } from "@/lib/constants";
+import { track } from "@/lib/tracking";
 
 interface GitHubBannerProps {
   /** Delay before showing the banner (ms) */
@@ -40,10 +41,9 @@ export function GitHubBanner({
   };
 
   const handleStarClick = () => {
-    // Track the click if posthog is available
-    if (typeof window !== "undefined" && (window as any).posthog) {
-      (window as any).posthog.capture("github_star_banner_clicked");
-    }
+    track("github_link_clicked", {
+      location: "github_banner",
+    });
   };
 
   if (isDismissed) return null;

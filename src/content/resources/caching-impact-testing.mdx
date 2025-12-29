@@ -16,7 +16,7 @@ The basic approach: test with caching disabled, then test with caching enabled. 
 
 This sounds simple. It's slightly more nuanced in practice.
 
-**Cold cache test** — start with an empty cache. Run your load test. This shows worst-case performance and measures how quickly the cache warms up.
+**Cold cache test** — start with an empty cache. Run your load test. This shows worst-case performance and measures how quickly the cache warms up. See [cold start performance](/resources/cold-start-performance) for more on this pattern.
 
 **Warm cache test** — pre-populate the cache with realistic data. Run your load test. This shows best-case performance with good cache hit rates.
 
@@ -30,7 +30,7 @@ This sounds simple. It's slightly more nuanced in practice.
 
 **Throughput difference** — can you handle more requests with caching? Faster responses mean connections free up sooner.
 
-**Resource usage** — does caching reduce database load? CPU usage? This matters for capacity planning.
+**Resource usage** — does caching reduce database load? CPU usage? This matters for capacity planning. If your database is the bottleneck, the [database bottlenecks](/resources/database-bottlenecks) guide can help.
 
 ## The hit rate question
 
@@ -82,4 +82,4 @@ Don't assume caching helps. Measure it. The impact varies wildly based on your d
 
 Test cold, test warm, test the transition. Understand your hit rates. Quantify the actual improvement.
 
-Sometimes caching is a 10x win. Sometimes it's marginal. You won't know until you test.
+Sometimes caching is a 10x win. Sometimes it's marginal. You won't know until you test. For broader optimization strategies, see [response time optimization](/resources/response-time-optimization).

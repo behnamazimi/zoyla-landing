@@ -14,7 +14,7 @@ The question isn't whether load testing is good. It's whether it's worth your ti
 
 This one's obvious. You're about to go live with something new. You expect traffic. You want to know it won't immediately fall over.
 
-Run your load tests against staging. Simulate realistic traffic patterns. If things look good, ship with confidence. If they don't, you just saved yourself a very public failure.
+Run your load tests against staging. Simulate realistic traffic patterns. If things look good, ship with confidence. If they don't, you just saved yourself a very public failure. The [testing before launch](/resources/testing-before-launch) guide has a detailed checklist.
 
 ## After significant changes
 
@@ -34,7 +34,7 @@ Run tests at your expected peak load. Then push a bit beyond to see where the ce
 
 Users complaining about slowness? Seeing higher error rates than usual? Before you start randomly optimizing things, get data.
 
-A quick load test can tell you whether the problem is capacity-related or something else entirely. Maybe your system handles load fine and the issue is a specific slow query. Maybe it really is capacity. Either way, now you know.
+A quick load test can tell you whether the problem is capacity-related or something else entirely. Maybe your system handles load fine and the issue is a specific slow query. Maybe it really is capacity. Either way, now you know. Tracking these over time is what [performance regression testing](/resources/performance-regression-testing) is all about.
 
 ## When you probably don't need to
 
@@ -54,7 +54,7 @@ For more on building this into your process, there's [making load testing part o
 
 ## The minimum viable approach
 
-If you're doing nothing right now, start with this: before your next significant release, run one load test against your most critical endpoint. Just one. See what you learn.
+If you're doing nothing right now, start with this: before your next significant release, run one load test against your most critical endpoint. Just one. See what you learn. The [simple load testing setup](/resources/simple-load-testing-setup) guide makes this easy.
 
 That's often enough to catch the obvious problems. And once you see the value, you'll naturally expand from there.
 

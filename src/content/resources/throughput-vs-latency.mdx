@@ -8,7 +8,7 @@ tags: ["metrics", "throughput", "latency", "tradeoffs"]
 
 You want high throughput. You want low latency. You can't always have both.
 
-This is one of the fundamental tradeoffs in system performance. Understanding it helps you make better decisions about capacity, optimization, and when to scale.
+This is one of the fundamental tradeoffs in system performance. Understanding it helps you make better decisions about capacity, optimization, and when to scale. The [understanding latency and throughput](/resources/understanding-latency-and-throughput) guide covers the fundamentals of these metrics.
 
 ## The relationship
 
@@ -34,7 +34,7 @@ Little's Law captures this mathematically:
 Concurrent Requests = Throughput × Latency
 ```
 
-If latency doubles, you need twice the concurrent connections to maintain throughput. Eventually you hit connection limits, and throughput drops.
+If latency doubles, you need twice the [concurrent connections](/resources/concurrent-users-explained) to maintain throughput. Eventually you hit connection limits, and throughput drops.
 
 ## Finding the sweet spot
 
@@ -50,7 +50,7 @@ Run load tests at increasing concurrency levels. Plot throughput and latency aga
 
 You'll see throughput climb linearly at first, then curve and plateau. Latency stays flat, then bends upward, then goes vertical.
 
-The point where latency starts bending is your practical capacity. The point where it goes vertical is your absolute limit.
+The point where latency starts bending is your practical capacity. The point where it goes vertical is your absolute limit. Finding this threshold is what [stress testing](/resources/finding-api-breaking-point) is all about.
 
 Zoyla shows both metrics after each test. Run tests at increasing concurrency levels and you'll see this pattern emerge in your results.
 

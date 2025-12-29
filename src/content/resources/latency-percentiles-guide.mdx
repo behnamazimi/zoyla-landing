@@ -62,15 +62,15 @@ For more on this relationship, see [throughput vs latency](/resources/throughput
 
 If your p99 is bad but p50 is fine, you have an outlier problem. Something is occasionally slow.
 
-Common causes: slow database queries that only trigger on certain data. External services with variable response times. Resource contention under load. Garbage collection pauses.
+Common causes: slow database queries that only trigger on certain data. External services with variable response times. Resource contention under load. Garbage collection pauses. [Cold starts](/resources/cold-start-performance) can also cause outliers.
 
-Fixing p99 often requires finding and eliminating these edge cases. It's different from general optimization.
+Fixing p99 often requires finding and eliminating these edge cases. It's different from general optimization. The [response time optimization](/resources/response-time-optimization) guide covers strategies for improving these numbers.
 
 ## The practical takeaway
 
 Stop looking at averages. Or at least, stop _only_ looking at averages.
 
-When you run a load test, look at p95 and p99. When you set SLAs, set them on percentiles. When you debug performance, focus on what's making the tail long.
+When you run a load test, look at p95 and p99. When you set SLAs, set them on percentiles. When you debug performance, focus on what's making the tail long. The [error rates under load](/resources/error-rates-under-load) guide covers what happens when things start failing.
 
 Averages tell you about the common case. Percentiles tell you about the cases that matter most.
 

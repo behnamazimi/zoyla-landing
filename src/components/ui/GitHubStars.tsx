@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Github, Star } from "lucide-react";
 import { GITHUB_REPO, GITHUB_URL } from "@/lib/constants";
-import posthog from "posthog-js";
+import { track } from "@/lib/tracking";
 
 export function GitHubStars() {
   const [stars, setStars] = useState<number | null>(null);
@@ -32,9 +32,8 @@ export function GitHubStars() {
   }, []);
 
   const handleGitHubClick = () => {
-    posthog.capture("github_link_clicked", {
+    track("github_link_clicked", {
       location: "header",
-      stars_count: stars,
     });
   };
 
@@ -49,12 +48,21 @@ export function GitHubStars() {
     >
       <Github size={16} />
       <span>GitHub</span>
-      {stars !== null && (
-        <span className="ml-1 flex items-center gap-1 rounded-full bg-[#1a1a1a] px-2 py-0.5 text-xs text-[#b8ff57]">
-          <Star size={10} className="fill-current" />
-          {stars >= 1000 ? `${(stars / 1000).toFixed(1)}k` : stars}
+      {/* Always render the badge container to prevent layout shift */}
+      <span
+        className={`ml-1 flex min-w-12 items-center justify-center gap-1 rounded-full bg-[#1a1a1a] px-2 py-0.5 text-xs text-[#b8ff57] transition-opacity duration-300 ${
+          stars !== null ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        <Star size={10} className="fill-current" />
+        <span>
+          {stars !== null
+            ? stars >= 1000
+              ? `${(stars / 1000).toFixed(1)}k`
+              : stars
+            : "—"}
         </span>
-      )}
+      </span>
     </a>
   );
 }

@@ -4,11 +4,11 @@ import { DownloadButton } from "@/components/ui/DownloadButton";
 import { BrewInstall } from "@/components/ui/BrewInstall";
 import { AppScreenshot } from "./AppScreenshot";
 import { GITHUB_URL } from "@/lib/constants";
-import posthog from "posthog-js";
+import { track } from "@/lib/tracking";
 
 export function Hero() {
   const handleGitHubHeroClick = () => {
-    posthog.capture("github_hero_clicked", {
+    track("github_link_clicked", {
       location: "hero_section",
     });
   };
@@ -29,7 +29,7 @@ export function Hero() {
         </h1>
 
         <p
-          className="animate-fade-in-up mx-auto mt-8 max-w-xl text-xl leading-relaxed text-[#6b6b6b] delay-400"
+          className="animate-fade-in-up mx-auto mt-8 max-w-xl text-xl leading-relaxed text-(--foreground-muted) delay-400"
           style={{ fontFamily: "var(--font-body)" }}
         >
           A lightweight, local-first HTTP load testing app for fast, repeatable
@@ -42,7 +42,7 @@ export function Hero() {
             <a
               href={GITHUB_URL}
               onClick={handleGitHubHeroClick}
-              className="animate-fade-in-up text-sm text-[#6b6b6b] transition-colors delay-600 hover:text-[#e8e8e8]"
+              className="animate-fade-in-up text-sm text-(--muted) transition-colors delay-600 hover:text-[#e8e8e8]"
               style={{ fontFamily: "var(--font-mono)" }}
             >
               View on GitHub →

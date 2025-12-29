@@ -1,0 +1,57 @@
+---
+title: "Load Testing Applications Running in Docker"
+description: "How to load test containerized applications — resource limits, networking considerations, and container-specific gotchas."
+date: "2025-12-26"
+author: "Behnam Azimi"
+tags: ["docker", "containers", "kubernetes"]
+---
+
+Docker changes things. Your application runs in a container with resource limits, isolated networking, and a different performance profile than bare metal. Load testing containerized apps requires understanding these differences.
+
+## Resource limits matter
+
+Containers typically have CPU and memory limits. Your application might have 2 CPUs and 4GB RAM allocated, not the full resources of the host.
+
+This is important because you're testing within those limits. If your container has 2 CPUs, it doesn't matter that the host has 32. Your application hits its ceiling at 2 CPUs worth of work.
+
+Check your limits before testing. `docker stats` shows resource usage for running containers. If your test environment has different limits than production, your results won't transfer. The [monitoring during load tests](/resources/monitoring-during-load-tests) guide covers what to watch.
+
+## The networking layer
+
+Container networking adds overhead. Traffic goes through Docker's network stack, potentially through virtual bridges and NAT. For most applications, this overhead is small. But under high load, those milliseconds add up.
+
+You can test from within the same Docker network to remove external variables. Or accept the overhead and include it in your baseline — if production runs in containers with the same networking, the overhead is part of your real performance.
+
+## Cold starts
+
+Containers can start fresh for each deployment. Empty caches, no JIT warmup, fresh connection pools. If your orchestrator scales by adding containers, new containers start cold.
+
+Test cold start performance specifically. Start a fresh container and immediately send traffic. How long until it reaches steady state? The [cold start guide](/resources/cold-start-performance) covers this more.
+
+## Orchestrator considerations
+
+On Kubernetes or similar, your load test interacts with the orchestration layer too. Load balancing distributes traffic across pods. Auto-scaling might trigger during your test. The [load testing microservices](/resources/load-testing-microservices) guide covers distributed system testing.
+
+For meaningful results, either disable auto-scaling during tests or specifically test auto-scaling behavior. Both are valid — just know which you're doing.
+
+## Memory limits and OOM
+
+Containers have hard memory limits. Exceed them and the container gets killed. Load testing can push memory usage up. If you hit the limit, your container dies mid-test.
+
+This is actually useful information. Better to find your memory ceiling in testing than production. For memory issues over time, see [soak testing](/resources/soak-testing-guide).
+
+## CPU throttling
+
+CPU limits work differently than memory. Instead of killing the container, Docker throttles CPU access. Under load, this manifests as increased latency — your application is waiting for CPU cycles.
+
+Monitor CPU throttling during tests. High throttling means you're hitting your limit.
+
+## The container advantage
+
+Despite the complexity, containers make load testing more reproducible. The same image runs the same way everywhere. Environment differences that plague bare-metal testing are eliminated.
+
+The [capacity planning guide](/resources/capacity-planning-basics) covers how to translate test results into capacity decisions.
+
+---
+
+Ready to test your containerized app? [Download Zoyla](/) and see how it performs within its resource limits.

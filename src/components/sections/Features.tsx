@@ -48,7 +48,7 @@ function FeatureCard({
           {title}
         </h3>
         <p
-          className={`leading-relaxed text-[#6b6b6b] ${size === "small" ? "text-sm" : ""}`}
+          className={`leading-relaxed text-(--foreground-muted) ${size === "small" ? "text-sm" : ""}`}
           style={{ fontFamily: "var(--font-body)" }}
         >
           {description}

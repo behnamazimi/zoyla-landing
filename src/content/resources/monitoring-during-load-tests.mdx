@@ -1,0 +1,80 @@
+---
+title: "What to Monitor While Your Load Test Runs"
+description: "Load test results tell you what happened. Server metrics tell you why. Here's what to watch during your tests."
+date: "2025-12-21"
+author: "Behnam Azimi"
+tags: ["monitoring", "metrics", "debugging"]
+---
+
+Your load testing tool shows response times and error rates. Useful, but incomplete. It tells you _what_ happened. To understand _why_, you need to watch your servers while the test runs.
+
+## The basics
+
+CPU usage is the obvious one. If CPU is maxed, you're compute-bound. Adding more requests won't help — you need faster code or more CPUs.
+
+Memory usage matters for different reasons. High memory might be fine if it's stable. Growing memory over time suggests a leak. Sudden spikes might indicate buffering issues.
+
+Disk I/O shows up when you're reading or writing data. Database servers often become I/O bound before CPU bound. If disk wait times are high, your queries are waiting on storage.
+
+Network I/O can bottleneck too, especially with large payloads. If you're saturating your network, response times will suffer regardless of how fast your code is.
+
+## Database metrics
+
+The database is usually where problems hide. Watch these during load tests:
+
+Active connections — are you hitting pool limits? Query time — are queries getting slower under load? Lock waits — are queries blocking each other? Cache hit ratio — is the database serving from memory or hitting disk?
+
+If your application looks fine but response times are bad, check the database. The [database bottlenecks guide](/resources/database-bottlenecks) goes deeper on this.
+
+## Application-level metrics
+
+Beyond OS-level stats, your application probably exposes its own metrics.
+
+Request queue depth shows if requests are backing up waiting to be processed. Thread pool utilization tells you if you're running out of workers. Connection pool stats reveal if database connections are the bottleneck.
+
+Garbage collection metrics matter for JVM and similar runtimes. Frequent or long GC pauses add latency.
+
+## Correlating metrics with results
+
+The power comes from correlation. When response times spike in your load test results, what happened to server metrics at that same moment?
+
+If response times spiked and CPU spiked, you found your bottleneck. If response times spiked but CPU stayed low, the bottleneck is elsewhere — database, external service, I/O. The [response time optimization](/resources/response-time-optimization) guide covers how to fix these issues.
+
+Time-align your metrics. If your load test ran from 2:00 to 2:30, look at server metrics for exactly that window.
+
+## What patterns mean
+
+CPU maxed, memory stable, response times high — you're compute-bound. Optimize code or add CPU.
+
+Memory growing steadily — you have a leak. See [soak testing](/resources/soak-testing-guide).
+
+Disk I/O maxed — you're storage-bound. Add faster storage, add caching, or optimize queries.
+
+Database connections at limit — you need a bigger pool or faster queries to free connections sooner.
+
+Response times high but all metrics look fine — the bottleneck might be external. A slow downstream service, network latency, something outside your monitoring. The [error rates under load](/resources/error-rates-under-load) guide covers how to interpret different failure patterns.
+
+## Tools for monitoring
+
+Use whatever you have. Grafana, Datadog, CloudWatch, htop — anything that shows you system metrics in real time or near-real time.
+
+The specific tool matters less than having visibility. If you can't see what your server is doing during a load test, you're flying blind.
+
+For interpreting what your load test results mean, see [how to read load test results](/resources/interpreting-load-test-results). For finding where your system breaks, the [breaking point guide](/resources/finding-api-breaking-point) covers the methodology.
+
+## A simple checklist
+
+Before running a load test, make sure you can see:
+
+- CPU, memory, disk I/O, network I/O on application servers
+- The same metrics on database servers
+- Database-specific metrics (connections, query times)
+- Application metrics if available
+
+During the test, watch for spikes and correlate them with your load test results.
+
+After the test, review the full timeline. Look for patterns you might have missed in real time.
+
+---
+
+Want to see how your API performs? [Download Zoyla](/) and run a load test while watching your metrics.

@@ -1,0 +1,95 @@
+---
+title: "Load Testing PUT, PATCH, and DELETE Endpoints"
+description: "Most load testing focuses on GET and POST. Here's how to properly test update and delete operations."
+date: "2025-12-20"
+author: "Behnam Azimi"
+tags: ["http-methods", "api", "crud"]
+---
+
+Most load testing tutorials focus on GET requests. Maybe POST. But real APIs have PUT, PATCH, and DELETE operations too, and they behave differently under load.
+
+Update and delete operations modify data. That changes everything about how you test them. The [API load testing basics](/resources/api-load-testing-basics) cover general setup — this guide focuses on the specifics of mutation operations.
+
+## Why these are different
+
+GET requests are read-only. You can fire thousands of them at the same endpoint and nothing changes. Easy to test, easy to repeat.
+
+PUT, PATCH, and DELETE modify state. Each request changes something. Run the same DELETE twice and the second one fails because the resource is already gone. Run a thousand PUTs against the same resource and you might create lock contention.
+
+This makes test setup more complex. You need data to modify. You need to handle the fact that your test changes that data.
+
+## The data problem
+
+To test DELETE, you need things to delete. To test PUT, you need things to update. And after your test runs, that data is changed.
+
+Options:
+
+Reset data between test runs. Restore from a snapshot, truncate tables, whatever gets you back to a known state.
+
+Create data as part of the test. POST to create resources, then PUT/DELETE them. This tests the full lifecycle but makes the test more complex.
+
+Use a pool of test resources. Create 10,000 test records. Each test run uses some of them. Replenish periodically.
+
+## Lock contention
+
+Multiple concurrent updates to the same resource cause lock contention. The database has to serialize those writes. Throughput suffers.
+
+This is realistic — it happens in production too. But you need to know if your test is measuring application performance or lock contention.
+
+Test with updates to different resources (no contention) and updates to the same resource (maximum contention). The difference tells you how much locking affects your performance.
+
+The [database bottlenecks guide](/resources/database-bottlenecks) covers lock-related issues.
+
+## Idempotency
+
+PUT is supposed to be idempotent — calling it twice with the same data should have the same result as calling it once. PATCH and DELETE should also be idempotent in most implementations.
+
+Load testing can verify this. Send the same PUT request multiple times. Does it behave correctly? Or do you get errors, duplicate records, or corrupted state?
+
+This matters because retries happen. Network glitches, timeouts, client bugs — requests get sent twice. Your API needs to handle that.
+
+## Testing PATCH specifically
+
+PATCH updates partial resources. Send only the fields you want to change.
+
+Test with different patch sizes. Updating one field might be fast. Updating twenty fields might trigger more validation, more database writes, more work.
+
+Test concurrent patches to the same resource. What happens when two clients try to update different fields simultaneously? Does one overwrite the other? Do you have proper conflict handling?
+
+## Testing DELETE
+
+DELETE seems simple. Resource exists, then it doesn't. But there are subtleties.
+
+Soft delete vs hard delete — soft delete is usually faster (just flipping a flag) but might affect query performance over time as deleted records accumulate.
+
+Cascade deletes — deleting a parent might delete children. A user delete might cascade to posts, comments, likes. That's a lot of database work.
+
+Test cascade scenarios specifically. Deleting a user with 10,000 posts is very different from deleting a user with 10.
+
+## Webhooks and side effects
+
+Update and delete operations often trigger side effects. Webhooks fire. Caches invalidate. Search indexes update. Audit logs write.
+
+These side effects take time and resources. Under load, they can become bottlenecks.
+
+Test with side effects enabled. If your production system sends webhooks on every update, your load test should too. The [webhook testing guide](/resources/load-testing-webhooks) covers this.
+
+## Realistic scenarios
+
+Real update patterns aren't uniform. Some records get updated frequently, others rarely. Some users delete lots of data, others never delete anything.
+
+Match your test patterns to production. If 90% of updates are to recent records, test that distribution. If deletes are rare, don't over-weight them in your load test. The [realistic load patterns](/resources/realistic-load-patterns) guide covers designing tests that reflect actual usage.
+
+## Practical approach
+
+Set up test data that you can modify. Plan for data reset between runs.
+
+Test updates to different resources to measure baseline performance. Test updates to the same resource to measure contention.
+
+Verify idempotency — send duplicate requests and check behavior.
+
+Include side effects in your tests. Watch for cascade operations that might be expensive. The [load testing pagination](/resources/load-testing-pagination) guide covers testing list endpoints that often accompany CRUD operations.
+
+---
+
+Ready to test your update and delete endpoints? [Download Zoyla](/) and see how they perform under load.

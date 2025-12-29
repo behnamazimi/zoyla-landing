@@ -46,7 +46,7 @@ export default function ResourcesPage() {
             Resources
           </h1>
           <p
-            className="mx-auto max-w-2xl text-lg text-[#6b6b6b]"
+            className="mx-auto max-w-2xl text-lg text-(--foreground-muted)"
             style={{ fontFamily: "var(--font-body)" }}
           >
             Guides, tutorials, and best practices for HTTP load testing and
@@ -71,7 +71,7 @@ export default function ResourcesPage() {
                         {post.tags.slice(0, 3).map((tag) => (
                           <span
                             key={tag}
-                            className="rounded-full bg-[#1a1a1a] px-2.5 py-0.5 text-xs text-[var(--accent)]"
+                            className="rounded-full bg-[#1a1a1a] px-2.5 py-0.5 text-xs text-(--accent)"
                             style={{ fontFamily: "var(--font-mono)" }}
                           >
                             {tag}
@@ -82,7 +82,7 @@ export default function ResourcesPage() {
 
                     {/* Title */}
                     <h2
-                      className="mb-2 text-xl font-medium text-[#e8e8e8] transition-colors group-hover:text-[var(--accent)]"
+                      className="mb-2 text-xl font-medium text-[#e8e8e8] transition-colors group-hover:text-(--accent)"
                       style={{ fontFamily: "var(--font-display)" }}
                     >
                       {post.title}
@@ -90,7 +90,7 @@ export default function ResourcesPage() {
 
                     {/* Description */}
                     <p
-                      className="mb-4 line-clamp-2 text-[#6b6b6b]"
+                      className="mb-4 line-clamp-2 text-(--foreground-muted)"
                       style={{ fontFamily: "var(--font-body)" }}
                     >
                       {post.description}
@@ -98,7 +98,7 @@ export default function ResourcesPage() {
 
                     {/* Meta */}
                     <div
-                      className="flex items-center gap-3 text-xs text-[#6b6b6b]"
+                      className="flex items-center gap-3 text-xs text-(--muted)"
                       style={{ fontFamily: "var(--font-mono)" }}
                     >
                       <span className="flex items-center gap-1.5">
@@ -112,7 +112,7 @@ export default function ResourcesPage() {
 
                   {/* Arrow */}
                   <div className="hidden sm:block">
-                    <ArrowRight className="h-5 w-5 text-[#6b6b6b] transition-all group-hover:translate-x-1 group-hover:text-[var(--accent)]" />
+                    <ArrowRight className="h-5 w-5 text-(--muted) transition-all group-hover:translate-x-1 group-hover:text-(--accent)" />
                   </div>
                 </div>
               </Link>
@@ -121,7 +121,7 @@ export default function ResourcesPage() {
         ) : (
           <div className="py-20 text-center">
             <p
-              className="text-[#6b6b6b]"
+              className="text-(--foreground-muted)"
               style={{ fontFamily: "var(--font-body)" }}
             >
               No resources available yet. Check back soon!

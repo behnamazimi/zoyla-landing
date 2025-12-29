@@ -1,0 +1,95 @@
+---
+title: "Load Testing WebSocket Connections"
+description: "WebSockets are fundamentally different from HTTP. Here's how to approach load testing real-time connections."
+date: "2025-12-19"
+author: "Behnam Azimi"
+tags: ["websocket", "real-time", "connections"]
+---
+
+WebSockets aren't HTTP. They're persistent, bidirectional connections that stay open for minutes or hours. Load testing them requires a different mindset.
+
+You're not measuring requests per second. You're measuring how many concurrent connections your server can handle, and how it behaves as that number grows.
+
+## What makes WebSockets different
+
+HTTP is request-response. Client asks, server answers, done. Each request is independent.
+
+WebSockets are persistent. The connection opens and stays open. Both sides can send messages anytime. State accumulates over the life of the connection.
+
+This changes what "load" means. With HTTP, load is requests per second. With WebSockets, load is [concurrent connections](/resources/concurrent-users-explained) plus messages per second across those connections.
+
+## Connection limits
+
+Every WebSocket connection consumes resources. Memory for connection state. A file descriptor. Possibly a thread or goroutine depending on your server architecture.
+
+Your server has limits. Operating system limits on file descriptors. Memory limits. Framework-specific limits. Load testing finds these limits.
+
+Start with a baseline. How many idle connections can your server hold? Then add message traffic. How does performance change?
+
+## Memory per connection
+
+Each connection uses memory. How much depends on your application — what state you keep per connection, what buffers you allocate.
+
+Multiply by expected concurrent connections. If each connection uses 1KB and you expect 100,000 connections, that's 100MB just for connection state. If each uses 100KB, that's 10GB.
+
+Monitor memory during load tests. Watch for growth over time — that might indicate leaks in connection handling. The [soak testing guide](/resources/soak-testing-guide) covers finding time-based issues like memory leaks.
+
+## Message throughput
+
+Beyond connection count, you care about message throughput. How many messages per second can your server handle across all connections?
+
+Test with different message rates. 1 message per second per connection. 10 per second. 100 per second. At some point, you'll hit a ceiling.
+
+Also test message size. Small messages are different from large messages. Binary data is different from text.
+
+## Fan-out scenarios
+
+Many WebSocket applications broadcast messages — one event goes to many connections. A chat room, a live dashboard, a multiplayer game.
+
+Fan-out is expensive. Sending one message to 10,000 connections means 10,000 sends. If your server serializes this, it takes time. If connections are on different servers, you need pub/sub infrastructure.
+
+Test your specific fan-out patterns. How long does it take for a message to reach all subscribers?
+
+## Connection churn
+
+Real users connect and disconnect. They refresh pages, lose network, close tabs. This connection churn adds overhead.
+
+Test with realistic churn. If average session length is 5 minutes, simulate that. Connections opening and closing constantly stress different code paths than stable long-lived connections.
+
+## Reconnection behavior
+
+When connections drop, clients reconnect. What happens on your server? Do you restore state? Replay missed messages? Start fresh?
+
+Test reconnection under load. When the server is busy, can clients still reconnect quickly? Or do reconnection attempts pile up and make things worse?
+
+## Testing tools
+
+Standard HTTP load testing tools don't work for WebSockets. You need tools that understand persistent connections and bidirectional messaging.
+
+k6, Artillery, and Gatling all support WebSocket testing. Or write custom test clients — WebSocket libraries exist for every language.
+
+Zoyla focuses on HTTP load testing. For WebSocket testing, you'll need specialized tools.
+
+## Scaling considerations
+
+WebSocket scaling is different from HTTP scaling. HTTP requests can go to any server — they're stateless. WebSocket connections have state and need to stay on the same server (or use sticky sessions).
+
+If you're testing a distributed WebSocket system, test the whole thing. Connection routing, message broadcasting between servers, failover behavior.
+
+The [microservices guide](/resources/load-testing-microservices) covers distributed system testing concepts that apply here.
+
+## Practical approach
+
+Start by measuring connection capacity. How many idle connections can you hold?
+
+Add message traffic gradually. Watch for the point where latency increases or messages get dropped.
+
+Test fan-out if applicable. Measure broadcast latency to all subscribers.
+
+Include connection churn in your tests. Real traffic isn't stable.
+
+Monitor memory closely. WebSocket servers often die from memory exhaustion before CPU exhaustion. The [connection pooling performance](/resources/connection-pooling-performance) guide covers connection management concepts that apply here.
+
+---
+
+WebSockets need specialized testing. For your HTTP endpoints, [Download Zoyla](/) and see how they perform.

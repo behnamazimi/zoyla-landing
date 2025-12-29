@@ -75,7 +75,7 @@ export default function RealMetricsPage() {
           Numbers that matter
         </h1>
         <p
-          className="mx-auto mb-10 max-w-2xl text-lg text-[#6b6b6b] sm:text-xl"
+          className="mx-auto mb-10 max-w-2xl text-lg text-(--foreground-muted) sm:text-xl"
           style={{ fontFamily: "var(--font-body)" }}
         >
           Not every metric matters. Zoyla focuses on the ones that answer real
@@ -114,7 +114,7 @@ export default function RealMetricsPage() {
                 {metric.title}
               </h3>
               <p
-                className="text-sm leading-relaxed text-[#6b6b6b]"
+                className="text-sm leading-relaxed text-(--foreground-muted)"
                 style={{ fontFamily: "var(--font-body)" }}
               >
                 {metric.description}
@@ -133,7 +133,7 @@ export default function RealMetricsPage() {
           The full picture
         </h2>
         <p
-          className="mb-8 text-center text-[#6b6b6b]"
+          className="mb-8 text-center text-(--foreground-muted)"
           style={{ fontFamily: "var(--font-body)" }}
         >
           Averages lie. Percentiles tell the truth about what users experience.
@@ -151,7 +151,7 @@ export default function RealMetricsPage() {
                 {p.name}
               </div>
               <div
-                className="text-xs text-[#6b6b6b]"
+                className="text-xs text-(--foreground-muted)"
                 style={{ fontFamily: "var(--font-body)" }}
               >
                 {p.description}
@@ -173,7 +173,7 @@ export default function RealMetricsPage() {
           />
         </div>
         <p
-          className="mt-4 text-center text-sm text-[#6b6b6b]"
+          className="mt-4 text-center text-sm text-(--foreground-muted)"
           style={{ fontFamily: "var(--font-body)" }}
         >
           See exactly how your API performs under load
@@ -190,7 +190,7 @@ export default function RealMetricsPage() {
             See your numbers
           </h2>
           <p
-            className="mb-6 text-[#6b6b6b]"
+            className="mb-6 text-(--foreground-muted)"
             style={{ fontFamily: "var(--font-body)" }}
           >
             Download Zoyla and get real metrics in seconds.
@@ -202,7 +202,7 @@ export default function RealMetricsPage() {
       {/* Related links */}
       <section className="relative z-10 mx-auto max-w-3xl px-6 pb-24 sm:px-8">
         <h3
-          className="mb-4 text-sm font-medium tracking-wider text-[#6b6b6b] uppercase"
+          className="text-muted mb-4 text-sm font-medium tracking-wider uppercase"
           style={{ fontFamily: "var(--font-mono)" }}
         >
           Related resources

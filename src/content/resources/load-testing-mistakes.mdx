@@ -22,7 +22,7 @@ First request: 200ms. Next 99 requests: 5ms each. Average: 7ms. Looks amazing.
 
 But those 99 fast requests were served from cache. In production, with varied requests from different users, your cache hit rate might be much lower. Your actual average might be closer to 150ms.
 
-Run tests that account for cache behavior. Either test with cache disabled, or test with enough variety that you're not just measuring cached responses.
+Run tests that account for cache behavior. Either test with cache disabled, or test with enough variety that you're not just measuring cached responses. The [caching impact testing](/resources/caching-impact-testing) guide covers this in detail.
 
 ## 3. Testing from the wrong location
 
@@ -44,7 +44,7 @@ You run one test, get good numbers, ship. A week later, performance is terrible.
 
 Single test runs have noise. Network hiccups, garbage collection pauses, background processes, whatever. Run your tests multiple times. Look for consistency. If results vary wildly between runs, that's information too.
 
-Also, one-time testing misses regressions. Something that worked last month might not work now. Regular testing catches drift before it becomes a problem.
+Also, one-time testing misses regressions. Something that worked last month might not work now. Regular testing catches drift before it becomes a problem. The [realistic load patterns](/resources/realistic-load-patterns) guide covers how to design tests that reflect actual usage.
 
 ## The common thread
 

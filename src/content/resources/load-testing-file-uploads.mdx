@@ -1,0 +1,87 @@
+---
+title: "Load Testing File Upload Endpoints"
+description: "How to load test file upload APIs — multipart requests, timeout considerations, and the unique challenges of testing upload endpoints."
+date: "2025-12-22"
+author: "Behnam Azimi"
+tags: ["file-upload", "multipart", "api"]
+---
+
+File uploads are different from typical API requests. The payloads are larger, the requests take longer, and the server does different work. Testing them requires some adjustments to your usual approach.
+
+## What makes uploads different
+
+A typical JSON API request might be a few KB. A file upload could be megabytes. That changes everything about timing.
+
+Upload time depends on bandwidth, not just server processing. A 10MB file over a 10Mbps connection takes at least 8 seconds just for transfer. Your server hasn't even started processing yet.
+
+The server work is different too. Receiving and storing files, possibly processing them (resizing images, scanning for viruses), writing to disk or cloud storage. These operations have different bottlenecks than typical request handling.
+
+## Timeout considerations
+
+Your normal request timeout might be 30 seconds. For file uploads, that could be too short.
+
+A user uploading a 50MB file on a slow connection might need several minutes just for transfer. If your timeout kills the request halfway through, they have to start over.
+
+Set upload timeouts based on expected file sizes and realistic bandwidth. Or implement chunked uploads where each chunk has its own timeout.
+
+The [timeout configuration guide](/resources/timeout-configuration-testing) covers timeout strategy more broadly.
+
+## Testing with realistic files
+
+Don't test with empty files or tiny placeholders. Use files that match your production distribution.
+
+If users typically upload 2-5MB images, test with 2-5MB images. If you occasionally get 50MB videos, include those in your test mix. The server handles different file sizes differently — memory usage, processing time, storage I/O all vary.
+
+Generate test files of appropriate sizes. Random binary data works for testing raw upload performance. For testing processing (image resizing, etc.), use actual files of that type.
+
+## Concurrent uploads
+
+Multiple users uploading simultaneously stress different resources than multiple users making JSON requests.
+
+Disk I/O becomes a factor. Writing many large files concurrently can saturate storage. Memory usage spikes if files are buffered before writing. Network bandwidth might become the bottleneck.
+
+Test with concurrent uploads. Watch disk I/O and memory alongside the usual CPU and response time metrics.
+
+## Streaming vs buffering
+
+Some upload implementations buffer the entire file in memory before processing. Others stream directly to storage. The difference matters a lot under load.
+
+Buffering uses memory proportional to file size times concurrent uploads. 10 concurrent 10MB uploads means 100MB of buffer memory. That's fine. 100 concurrent 100MB uploads means 10GB. That's probably not fine.
+
+Streaming uses minimal memory but requires your storage to keep up with the upload rate. Different tradeoff.
+
+Test to find out which you have. Monitor memory during upload load tests. If it spikes with concurrent uploads, you're buffering. The [monitoring during load tests](/resources/monitoring-during-load-tests) guide covers what to watch.
+
+## Storage backend performance
+
+Where do uploaded files go? Local disk, S3, GCS, Azure Blob?
+
+Each has different performance characteristics. Local disk might be fastest but doesn't scale. Cloud storage has network latency but scales infinitely.
+
+Test against your actual storage backend. Local testing against disk doesn't tell you how S3 will perform. The [response size guide](/resources/api-response-size-performance) touches on bandwidth considerations that apply here too.
+
+## Progress and resumption
+
+Good upload APIs support progress reporting and resumable uploads. These features have performance implications.
+
+Progress reporting requires tracking bytes received, which is cheap. Resumable uploads require storing partial uploads and managing state, which adds complexity and storage overhead.
+
+If you support resumable uploads, test the resume path specifically. What happens when uploads fail partway and retry?
+
+## Error handling
+
+Uploads fail more often than typical requests. Network interruptions during a 5-minute upload are more likely than during a 50ms request.
+
+Test error scenarios. What happens when an upload is interrupted? Does the server clean up partial files? Can the client retry without re-uploading everything?
+
+## Practical approach
+
+Start by understanding your upload patterns. What sizes? How often? Concurrent uploads per user?
+
+Test with realistic file sizes at realistic concurrency. Monitor memory, disk I/O, and storage backend performance alongside response times.
+
+Set appropriate timeouts. Test error scenarios. Make sure partial uploads don't leave garbage behind. The [API response size performance](/resources/api-response-size-performance) guide covers payload size considerations that apply to uploads.
+
+---
+
+Want to test your upload endpoints? [Download Zoyla](/) and see how they handle real file sizes.

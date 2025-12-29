@@ -3,7 +3,7 @@
 import { Download, ExternalLink } from "lucide-react";
 import { detectPlatform } from "@/lib/platform";
 import { GITHUB_RELEASES_URL } from "@/lib/constants";
-import posthog from "posthog-js";
+import { track } from "@/lib/tracking";
 
 interface DownloadButtonProps {
   className?: string;
@@ -21,13 +21,19 @@ export function DownloadButton({
     : `/api/download?platform=${platformInfo.platform}&arch=${platformInfo.arch}`;
 
   const handleDownloadClick = () => {
-    posthog.capture(isMobile ? "releases_page_clicked" : "download_clicked", {
+    const properties = {
       platform: platformInfo.platform,
       arch: platformInfo.arch,
       platform_label: platformInfo.label,
       variant: variant,
       is_mobile: isMobile,
-    });
+    };
+
+    if (isMobile) {
+      track("releases_page_clicked", properties);
+    } else {
+      track("download_clicked", properties);
+    }
   };
 
   if (variant === "header") {

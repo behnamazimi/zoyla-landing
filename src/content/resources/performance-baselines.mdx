@@ -14,7 +14,7 @@ Performance baselines let you detect regressions before users notice them. They 
 
 Pick metrics that matter for your application.
 
-**Response time percentiles** — p50, p95, p99 for your critical endpoints. These tell you what users experience.
+**Response time percentiles** — p50, p95, p99 for your critical endpoints. These tell you what users experience. See [why percentiles matter](/resources/latency-percentiles-guide) for more on this.
 
 **Throughput** — requests per second at a standard load. This tells you capacity.
 
@@ -94,11 +94,11 @@ If you don't have baselines yet, start now. Run a test against your current syst
 
 It doesn't have to be comprehensive. Start with one critical endpoint. Expand later.
 
-The best time to establish baselines was before your last release. The second best time is now.
+The best time to establish baselines was before your last release. The second best time is now. The [when to load test](/resources/when-to-load-test) guide covers timing in more detail.
 
 ## The practical value
 
-Baselines turn performance from a feeling into a fact. "The site feels slow" becomes "p95 increased from 150ms to 400ms since last month."
+Baselines turn performance from a feeling into a fact. "The site feels slow" becomes "p95 increased from 150ms to 400ms since last month." For catching these changes automatically, see [performance regression testing](/resources/performance-regression-testing).
 
 Facts are actionable. Feelings aren't.
 

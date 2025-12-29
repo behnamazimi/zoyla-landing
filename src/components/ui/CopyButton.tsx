@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Check, Copy } from "lucide-react";
-import posthog from "posthog-js";
+import { track } from "@/lib/tracking";
 
 interface CopyButtonProps {
   text: string;
@@ -19,9 +19,7 @@ export function CopyButton({ text, className = "" }: CopyButtonProps) {
       setTimeout(() => setCopied(false), 2000);
 
       // Track copy event
-      posthog.capture("brew_command_copied", {
-        copied_text: text,
-      });
+      track("brew_install_command_copied");
     } catch {
       // Fallback for older browsers
       const textArea = document.createElement("textarea");
@@ -34,9 +32,7 @@ export function CopyButton({ text, className = "" }: CopyButtonProps) {
       setTimeout(() => setCopied(false), 2000);
 
       // Track copy event (fallback)
-      posthog.capture("brew_command_copied", {
-        copied_text: text,
-      });
+      track("brew_install_command_copied");
     }
   };
 
@@ -48,7 +44,7 @@ export function CopyButton({ text, className = "" }: CopyButtonProps) {
       <code className="text-sm text-[#a0a0a0] transition-colors group-hover:text-[#e8e8e8]">
         {text}
       </code>
-      <span className="flex h-5 w-5 items-center justify-center text-[#6b6b6b] transition-colors group-hover:text-[#b8ff57]">
+      <span className="flex h-5 w-5 items-center justify-center text-(--muted) transition-colors group-hover:text-[#b8ff57]">
         {copied ? <Check size={14} /> : <Copy size={14} />}
       </span>
     </button>
