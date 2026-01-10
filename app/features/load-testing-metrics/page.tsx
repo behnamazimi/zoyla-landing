@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   title: "Real Metrics – Zoyla",
   description:
     "RPS, latency percentiles, throughput charts, error rates. The metrics you need to understand your API's performance.",
+  alternates: {
+    canonical: `${SITE_URL}/features/load-testing-metrics`,
+  },
   openGraph: {
     title: "Real Metrics – Zoyla",
     description:

@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   title: "Local-First – Zoyla",
   description:
     "Your data stays on your machine. No cloud, no account, no telemetry. Complete privacy for your load testing.",
+  alternates: {
+    canonical: `${SITE_URL}/features/local-first-load-testing`,
+  },
   openGraph: {
     title: "Local-First – Zoyla",
     description:

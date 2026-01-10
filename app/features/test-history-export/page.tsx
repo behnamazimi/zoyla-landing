@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   title: "History & Export – Zoyla",
   description:
     "Never lose a test result. Full history of all your tests, with export to JSON and CSV for analysis and reporting.",
+  alternates: {
+    canonical: `${SITE_URL}/features/test-history-export`,
+  },
   openGraph: {
     title: "History & Export – Zoyla",
     description:
