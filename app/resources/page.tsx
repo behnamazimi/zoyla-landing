@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   title: "Resources – Zoyla",
   description:
     "Learn about HTTP load testing, performance optimization, and API benchmarking. Guides, tutorials, and best practices.",
+  alternates: {
+    canonical: `${SITE_URL}/resources`,
+  },
   openGraph: {
     title: "Resources – Zoyla",
     description:

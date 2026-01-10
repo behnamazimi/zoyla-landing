@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   title: "Rust-Powered – Zoyla",
   description:
     "Built with Rust and Tauri for maximum performance. Fast, efficient load testing with minimal overhead.",
+  alternates: {
+    canonical: `${SITE_URL}/features/rust-powered-performance`,
+  },
   openGraph: {
     title: "Rust-Powered – Zoyla",
     description:
